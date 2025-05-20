@@ -1,7 +1,10 @@
 from fastapi import FastAPI
 
+from apps.spareparts.api.spareparts import sparePartsRouter
+
 app = FastAPI()
 
+app.include_router(sparePartsRouter)
 
 @app.get("/")
 async def root():
