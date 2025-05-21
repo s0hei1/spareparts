@@ -1,5 +1,6 @@
 
-from sqlalchemy import Column, Integer, String, Enum, ForeignKey
+from sqlalchemy import Column, Integer, String, Enum, ForeignKey, Float
+from sqlalchemy.orm import relationship
 
 from apps.spareparts.data.enums.property_value_type import PropertyValueType
 from apps.spareparts.data.models.base import SQLAlchemyModel
@@ -49,14 +50,24 @@ from apps.spareparts.data.models.base import SQLAlchemyModel
 #     __tablename__ = 'machines_spare_parts'
 #     id = Column(Integer, primary_key=True)
 
-# class UnitOfMeasureGroup (SQLAlchemyModel):
-#     __tablename__ = 'unit_of_measure_group'
-#     id = Column(Integer, primary_key=True)
+class UnitOfMeasureGroup (SQLAlchemyModel):
+    __tablename__ = 'unit_of_measure_group'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(64), nullable=False)
 
-# class UnitOfMeasure(SQLAlchemyModel):
-#     __tablename__ = 'unit_of_measure'
-#     id = Column(Integer, primary_key=True)
-#     unit_in_group = Column(Integer, nullable=True)
+
+
+class UnitOfMeasure(SQLAlchemyModel):
+    __tablename__ = 'unit_of_measure'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(64), nullable=False)
+    group_id = Column(Integer, ForeignKey('unit_of_measure_group.id'), nullable=False)
+    unit_in_group = Column(Float(precision=53), nullable=True, doc= """
+    For example on Weight Unit of Measures 'Gram' will be '1' and 'Kilogram' will be '1000'
+    I hope you will understand :D
+    """)
+
+    group = relationship(UnitOfMeasureGroup)
 
 # class Locations(SQLAlchemyModel):
 #     __tablename__ = 'locations'
