@@ -3,8 +3,9 @@ from sqlalchemy import Column, Integer, String, Enum, ForeignKey, Float
 from sqlalchemy.orm import relationship
 
 from apps.spareparts.data.enums.property_value_type import PropertyValueType
-from apps.spareparts.data.models.base import SQLAlchemyModel
+from sqlalchemy.ext.declarative import declarative_base
 
+SQLAlchemyModel = declarative_base()
 
 #
 # class Warehouse(SQLAlchemyModel):

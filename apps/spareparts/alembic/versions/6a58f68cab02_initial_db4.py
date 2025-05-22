@@ -1,8 +1,8 @@
-"""Add Unit Of measures
+"""Initial DB4
 
-Revision ID: c2c5ea3efabb
-Revises: 3319d73c376d
-Create Date: 2025-05-21 07:52:48.730101
+Revision ID: 6a58f68cab02
+Revises: 64503581aa2b
+Create Date: 2025-05-22 12:02:21.107886
 
 """
 from typing import Sequence, Union
@@ -12,8 +12,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'c2c5ea3efabb'
-down_revision: Union[str, None] = '3319d73c376d'
+revision: str = '6a58f68cab02'
+down_revision: Union[str, None] = '64503581aa2b'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
@@ -30,7 +30,7 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=64), nullable=False),
     sa.Column('group_id', sa.Integer(), nullable=False),
-    sa.Column('unit_in_group', sa.Integer(), nullable=True),
+    sa.Column('unit_in_group', sa.Float(precision=53), nullable=True),
     sa.ForeignKeyConstraint(['group_id'], ['unit_of_measure_group.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
