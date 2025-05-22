@@ -1,11 +1,15 @@
 from pydantic import BaseModel, computed_field
-
+from typing import Optional
 
 class UnitOfMeasureCreate(BaseModel):
     name : str
-    unit_in_group : float | None
-    newGroupName : str | None
-    groupId : int | None
+    unit_in_group : float | None = None
+    newGroupName : str | None = None
+    groupId : Optional[int] = None
+
+    model_config = {
+        "from_attributes": True,
+    }
 
 class UnitOfMeasureRead(BaseModel):
     name : str
