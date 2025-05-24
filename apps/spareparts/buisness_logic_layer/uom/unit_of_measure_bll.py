@@ -29,8 +29,7 @@ class UnitOfMeasureBLL:
         if not uomCreate.groupId:
             raise HttpBadRequest("You must add a new group name or specify a valid group ID")
 
-        uom_data = uomCreate.model_dump(exclude={"newGroupName"})
-        new_uom = await self.uomRepository.create(**uom_data)
+        new_uom = await self.uomRepository.create(uomCreate.to_unit_of_measure())
         return UnitOfMeasureRead.model_validate(new_uom)
 
 

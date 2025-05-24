@@ -1,6 +1,9 @@
 from pydantic import BaseModel, computed_field
 from typing import Optional
 
+from apps.spareparts.data.models.sparepart import UnitOfMeasure
+
+
 class UnitOfMeasureCreate(BaseModel):
     name : str
     unit_in_group : float | None = None
@@ -10,6 +13,13 @@ class UnitOfMeasureCreate(BaseModel):
     model_config = {
         "from_attributes": True,
     }
+
+    def to_unit_of_measure(self) -> UnitOfMeasure:
+        return UnitOfMeasure(
+            name=self.name,
+            unit_in_group=self.unit_in_group,
+            group_id=self.groupId,
+        )
 
 class UnitOfMeasureRead(BaseModel):
     name : str
