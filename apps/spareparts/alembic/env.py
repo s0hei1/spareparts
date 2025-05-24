@@ -17,7 +17,7 @@ if config.config_file_name is not None:
 
 
 target_metadata = SQLAlchemyModel.metadata
-config.set_main_option("sqlalchemy.url", 'sqlite:///./development_db.db')
+config.set_main_option("sqlalchemy.url", settings.database_url)
 
 
 
