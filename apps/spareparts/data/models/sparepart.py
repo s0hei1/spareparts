@@ -39,10 +39,15 @@ SQLAlchemyModel = declarative_base()
 #     sparePart = Column(ForeignKey('spare_part.id'))
 #     value = Column(String(255)
 #
-# class FactoryParts(SQLAlchemyModel):
-#     __tablename__ = 'factory_parts'
-#     id = Column(Integer, primary_key=True)
-#
+class FactoryParts(SQLAlchemyModel):
+    __tablename__ = 'factory_parts'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), nullable=False)
+    parentId = Column(Integer, ForeignKey('factory_parts.id'), nullable=True)
+    description = Column(String(1024), nullable=True)
+
+    parent = relationship('FactoryParts')
+
 # class MachineCatalogs(SQLAlchemyModel):
 #     __tablename__ = 'machine_catalogs'
 #     id = Column(Integer, primary_key=True)
