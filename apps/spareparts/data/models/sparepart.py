@@ -75,6 +75,16 @@ class UnitOfMeasure(SQLAlchemyModel):
 
     group = relationship(UnitOfMeasureGroup)
 
+class Company(SQLAlchemyModel):
+    __tablename__ = 'company'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), nullable=False)
+    location = Column(String(255), nullable=False)
+    description = Column(String(1024), nullable=False)
+    website = Column(String(255), nullable=True)
+    contactEmail = Column(String(255), nullable=True)
+
+
 # class Locations(SQLAlchemyModel):
 #     __tablename__ = 'locations'
 #     x = Column(String(15))

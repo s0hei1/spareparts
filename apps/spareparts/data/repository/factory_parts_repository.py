@@ -10,7 +10,7 @@ class FactoryPartsRepository:
     def __init__(self, db: AsyncSession):
         self.db = db
 
-    async def read(self, id : int) -> FactoryParts:
+    async def read_one(self, id : int) -> FactoryParts:
         result = await self.db.execute(
             select(FactoryParts).where(FactoryParts.id == id)
         )
@@ -20,7 +20,7 @@ class FactoryPartsRepository:
 
         return obj
 
-    async def read_all(self) -> Sequence[FactoryParts] | None:
+    async def read_many(self) -> Sequence[FactoryParts] | None:
         result = await self.db.execute(
             select(FactoryParts)
         )
