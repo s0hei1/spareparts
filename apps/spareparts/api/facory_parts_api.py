@@ -21,7 +21,7 @@ async def add_factory_part(
 async def get_factory_parts(
         factoryPartRepo: FactoryPartsRepository = Depends(RepositoryDI.factory_part_repository)
 ):
-    return await factoryPartRepo.read_all()
+    return await factoryPartRepo.read_many()
 
 
 @factory_parts_router.put('/update_factory_part', response_model=FactoryPartRead)
