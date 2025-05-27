@@ -1,5 +1,5 @@
 
-from sqlalchemy import Column, Integer, String, Enum, ForeignKey, Float
+from sqlalchemy import Column, Integer, String, Enum, ForeignKey, Float,Boolean
 from sqlalchemy.orm import relationship
 
 from apps.spareparts.data.enums.property_value_type import PropertyValueType
@@ -46,12 +46,22 @@ class FactoryParts(SQLAlchemyModel):
     parentId = Column(Integer, ForeignKey('factory_parts.id'), nullable=True)
     description = Column(String(1024), nullable=True)
 
+
     parent = relationship('FactoryParts')
 
-# class MachineCatalogs(SQLAlchemyModel):
-#     __tablename__ = 'machine_catalogs'
-#     id = Column(Integer, primary_key=True)
-#
+class MachineCatalog(SQLAlchemyModel):
+    __tablename__ = 'machine_catalogs'
+    id = Column(Integer, primary_key=True)
+    machine_name = Column(String(256), nullable= False)
+    location_in_factory  = Column(String(256), nullable= True)
+    factory_parts_id  = Column(Integer, ForeignKey('factory_parts.id'), nullable= True)
+    description = Column(String(1024), nullable= True)
+    model_name = Column(String(256), nullable= False)
+    is_tool = Column(Boolean, nullable= False, default= False)
+
+    factory_part = relationship('FactoryParts')
+
+
 # class MachinesSpareParts(SQLAlchemyModel):
 #     __tablename__ = 'machines_spare_parts'
 #     id = Column(Integer, primary_key=True)

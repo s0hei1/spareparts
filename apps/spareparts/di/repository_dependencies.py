@@ -4,6 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from apps.spareparts.data.core.spare_parts_db import get_db
 from apps.spareparts.data.repository.company_repository import CompanyRepository
 from apps.spareparts.data.repository.factory_parts_repository import FactoryPartsRepository
+from apps.spareparts.data.repository.machine_catalog_repository import MachineCatalogRepository
 from apps.spareparts.data.repository.unit_of_measure_group_repository import UnitOfMeasureGroupRepository
 from apps.spareparts.data.repository.unit_of_measure_repository import UnitOfMeasureRepository
 
@@ -25,4 +26,8 @@ class RepositoryDI():
     @classmethod
     def company_repository(cls, db: AsyncSession = Depends(get_db)) -> CompanyRepository:
         return CompanyRepository(db=db)
+
+    @classmethod
+    def machine_catalog_repository(cls, db: AsyncSession = Depends(get_db)) -> MachineCatalogRepository:
+        return MachineCatalogRepository(db=db)
 
