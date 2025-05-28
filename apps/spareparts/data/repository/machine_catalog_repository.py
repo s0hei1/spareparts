@@ -20,7 +20,7 @@ class MachineCatalogRepository:
             raise NoResultFound(f"Machine catalog with id: {id} does not exist")
         return obj
 
-    async def read_many(self) -> Sequence[MachineCatalog] | None:
+    async def read_many(self) -> Sequence[MachineCatalog]:
         q = await self.db.execute(
             select(MachineCatalog)
         )

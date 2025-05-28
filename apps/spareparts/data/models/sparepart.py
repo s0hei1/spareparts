@@ -95,9 +95,10 @@ class Company(SQLAlchemyModel):
     contactEmail = Column(String(255), nullable=True)
 
 
-# class Locations(SQLAlchemyModel):
-#     __tablename__ = 'locations'
-#     x = Column(String(15))
-#     y = Column(String(15))
-#     z = Column(String(15))
-#     floor = Column(Integer, nullable=True)
+class Location(SQLAlchemyModel):
+    __tablename__ = 'location'
+    id = Column(Integer, primary_key=True)
+    x = Column(String(15))
+    y = Column(String(15))
+    z = Column(String(15))
+    floor = Column(Integer, nullable=True)

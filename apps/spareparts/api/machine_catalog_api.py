@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy.util import await_only
 
 from apps.spareparts.buisness_logic_layer.machine_catalogs.machine_catalog_schema import MachineCatalogRead, \
-    MachineCatalogCreate, MachineCatalogUpdate, MachineCatalogDelete
+    MachineCatalogCreate, MachineCatalogUpdate, MachineCatalogDeleteRead
 from apps.spareparts.data.models.sparepart import MachineCatalog
 from apps.spareparts.data.repository import machine_catalog_repository
 from apps.spareparts.data.repository.machine_catalog_repository import MachineCatalogRepository
@@ -20,7 +19,7 @@ async def add_machine_catalog(
     return await machine_catalog_repository.create(machine_catalog_create.to_machine_catalog())
 
 @machine_catalog_router.get('/read_machine_catalog', response_model=MachineCatalogRead)
-async def get_machine_catalog(
+async def get_machine_catalogs(
         id : int,
         machine_catalog_repository: MachineCatalogRepository = Depends(RepositoryDI.machine_catalog_repository),
 ):
@@ -39,7 +38,7 @@ async def update_machine_catalog(
 ):
     return await machine_catalog_repository.update(**machine_catalog_update.model_dump())
 
-@machine_catalog_router.delete('/delete_machine_catalog', response_model=MachineCatalogDelete)
+@machine_catalog_router.delete('/delete_machine_catalog', response_model=MachineCatalogDeleteRead)
 async def delete_machine_catalog(
         id : int,
         machine_catalog_repository: MachineCatalogRepository = Depends(RepositoryDI.machine_catalog_repository),
