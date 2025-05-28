@@ -39,10 +39,9 @@ class MachineCatalogUpdate(BaseModel):
     model_name : str | None = None
     is_tool : bool | None = None
 
-class MachineCatalogDelete(BaseModel):
+class MachineCatalogDeleteRead(BaseModel):
     id : int
     message : str = "Delete machine catalog was successful"
     class Config:
         orm_mode = True
-
 
