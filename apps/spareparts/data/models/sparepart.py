@@ -13,18 +13,26 @@ SQLAlchemyModel = declarative_base()
 #     id = Column(Integer, primary_key=True)
 #     name = Column(String)
 #
-# class Properties(SQLAlchemyModel):
-#     __tablename__ = 'properties'
+# class Property(SQLAlchemyModel):
+#     __tablename__ = 'property'
 #     id = Column(Integer, primary_key=True)
 #     name = Column(String(255))
 #     value_type = Column(Enum(PropertyValueType))
-#
-# class SparePartType(SQLAlchemyModel):
-#     __tablename__ = 'spare_part_type'
+
+class SparePartType(SQLAlchemyModel):
+    __tablename__ = 'spare_part_type'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255))
+
+# class SparePartTypeProperties(SQLAlchemyModel):
+#     __tablename__ = 'spare_part_properties'
 #     id = Column(Integer, primary_key=True)
-#     name = Column(String(255))
-#     properties =
-#
+#     spare_part_type_id = Column(Integer, ForeignKey('spare_part_type.id'), nullable=False)
+#     property_id = Column(Integer, ForeignKey('property.id'), nullable=False)
+#     value = Column(String(64))
+#     spare_part_type = relationship("SparePartType", back_populates="properties")
+#     property = relationship("Property")
+
 # class SparePart(SQLAlchemyModel):
 #     __tablename__ = 'spare_part'
 #
