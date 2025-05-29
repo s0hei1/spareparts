@@ -6,10 +6,13 @@ from apps.spareparts.data.repository.company_repository import CompanyRepository
 from apps.spareparts.data.repository.factory_parts_repository import FactoryPartsRepository
 from apps.spareparts.data.repository.location_repository import LocationRepository
 from apps.spareparts.data.repository.machine_catalog_repository import MachineCatalogRepository
+from apps.spareparts.data.repository.tag_repository import TagRepository
 from apps.spareparts.data.repository.unit_of_measure_group_repository import UnitOfMeasureGroupRepository
 from apps.spareparts.data.repository.unit_of_measure_repository import UnitOfMeasureRepository
 
 class RepositoryDI():
+
+
 
     @classmethod
     def unit_of_measure_repository(cls, db: AsyncSession = Depends(get_db),) -> UnitOfMeasureRepository:
@@ -35,6 +38,10 @@ class RepositoryDI():
     @classmethod
     def location_repository(cls, db: AsyncSession = Depends(get_db)) -> LocationRepository:
         return LocationRepository(db=db)
+
+    @classmethod
+    def tag_repository(cls, db: AsyncSession = Depends(get_db)) -> TagRepository:
+        return TagRepository(db=db)
 
 
 

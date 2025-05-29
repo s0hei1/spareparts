@@ -102,3 +102,8 @@ class Location(SQLAlchemyModel):
     y = Column(String(15))
     z = Column(String(15))
     floor = Column(Integer, nullable=True)
+
+class Tag(SQLAlchemyModel):
+    __tablename__ = 'tag'
+    id = Column(Integer, primary_key=True)
+    title = Column(String(255), nullable=False)
