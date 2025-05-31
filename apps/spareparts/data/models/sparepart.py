@@ -13,25 +13,31 @@ SQLAlchemyModel = declarative_base()
 #     id = Column(Integer, primary_key=True)
 #     name = Column(String)
 #
-# class Property(SQLAlchemyModel):
-#     __tablename__ = 'property'
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String(255))
-#     value_type = Column(Enum(PropertyValueType))
+
+class Property(SQLAlchemyModel):
+    __tablename__ = 'property'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255))
+    value_type = Column(Enum(PropertyValueType))
+    unit_of_measure_id = Column(Integer, ForeignKey('unit_of_measure.id'), nullable=False)
+
+    unit_of_measure = relationship("UnitOfMeasure")
 
 class SparePartType(SQLAlchemyModel):
     __tablename__ = 'spare_part_type'
     id = Column(Integer, primary_key=True)
     name = Column(String(255))
 
-# class SparePartTypeProperties(SQLAlchemyModel):
-#     __tablename__ = 'spare_part_properties'
-#     id = Column(Integer, primary_key=True)
-#     spare_part_type_id = Column(Integer, ForeignKey('spare_part_type.id'), nullable=False)
-#     property_id = Column(Integer, ForeignKey('property.id'), nullable=False)
-#     value = Column(String(64))
-#     spare_part_type = relationship("SparePartType", back_populates="properties")
-#     property = relationship("Property")
+
+class SparePartTypeProperties(SQLAlchemyModel):
+    __tablename__ = 'spare_part_properties'
+    id = Column(Integer, primary_key=True)
+    spare_part_type_id = Column(Integer, ForeignKey('spare_part_type.id'), nullable=False)
+    property_id = Column(Integer, ForeignKey('property.id'), nullable=False)
+    value = Column(String(64))
+
+    spare_part_type = relationship("SparePartType", back_populates="properties")
+    property = relationship("Property")
 
 # class SparePart(SQLAlchemyModel):
 #     __tablename__ = 'spare_part'
@@ -53,7 +59,6 @@ class FactoryParts(SQLAlchemyModel):
     name = Column(String(255), nullable=False)
     parentId = Column(Integer, ForeignKey('factory_parts.id'), nullable=True)
     description = Column(String(1024), nullable=True)
-
 
     parent = relationship('FactoryParts')
 
