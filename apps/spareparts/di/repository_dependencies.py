@@ -7,6 +7,7 @@ from apps.spareparts.data.repository.factory_parts_repository import FactoryPart
 from apps.spareparts.data.repository.location_repository import LocationRepository
 from apps.spareparts.data.repository.machine_catalog_repository import MachineCatalogRepository
 from apps.spareparts.data.repository.property_repository import PropertyRepository
+from apps.spareparts.data.repository.spare_part_repository import SparePartRepository
 from apps.spareparts.data.repository.spare_part_type_repository import SparePartTypeRepository
 from apps.spareparts.data.repository.tag_repository import TagRepository
 from apps.spareparts.data.repository.unit_of_measure_group_repository import UnitOfMeasureGroupRepository
@@ -52,6 +53,10 @@ class RepositoryDI():
     @classmethod
     def property_repository(cls, db: AsyncSession = Depends(get_db)) -> PropertyRepository:
         return PropertyRepository(db=db)
+
+    @classmethod
+    def spare_part_repository(cls, db: AsyncSession = Depends(get_db)) -> SparePartRepository:
+        return SparePartRepository(db=db)
 
 
 
