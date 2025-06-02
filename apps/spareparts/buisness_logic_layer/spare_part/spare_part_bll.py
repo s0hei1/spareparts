@@ -1,10 +1,12 @@
+from typing import Sequence, Any
 from sqlalchemy import select,func
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from apps.spareparts.buisness_logic_layer.spare_part.spare_part_schema import SparePartCreate
+from apps.spareparts.buisness_logic_layer.spare_part.spare_part_schema import SparePartCreate, SparePartCreateProperty
 from apps.spareparts.data.core.read_only_async_session import ReadOnlyAsyncSession
-from apps.spareparts.data.models.sparepart import SparePartType, SparePart
-
+from apps.spareparts.data.enums.property_value_type import PropertyValueType
+from apps.spareparts.data.models.sparepart import SparePartType, SparePart, SparePartTypeProperties, Property
+from more_itertools import first
 
 class SparePartBLL:
 
@@ -36,11 +38,21 @@ class SparePartBLL:
 
         return f'SP-{symbol}-{lastCode:04d}'
 
+    async def validate_properties(self,spare_part_type_id : int ,properties : Sequence[SparePartCreateProperty]):
 
+        spare_part_type_properties = (await self.db.execute(
+            select(SparePartTypeProperties.property_id,Property.value_type)
+            .join(Property, Property.id == SparePartTypeProperties.property_id)
+            .where(SparePartTypeProperties.spare_part_type_id == spare_part_type_id)
+        )).all()
 
+        for property in properties:
+            spare_part_type_property : tuple[int, PropertyValueType] | None = first(
+                [i for i in spare_part_type_properties if i[0] == property.property_id],
+                default=None
+            )
+            if spare_part_type_property is None:
+                raise ValueError()
 
-
-
-
-
-
+            if not isinstance(property.value_type, spare_part_type_property[1].get_type()):
+                raise ValueError()
