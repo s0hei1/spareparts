@@ -1,6 +1,9 @@
 from fastapi.params import Depends
 
+from apps.spareparts.buisness_logic_layer.spare_part.spare_part_bll import SparePartBLL
 from apps.spareparts.buisness_logic_layer.uom.unit_of_measure_bll import UnitOfMeasureBLL
+from apps.spareparts.data.core.read_only_async_session import ReadOnlyAsyncSession
+from apps.spareparts.data.core.spare_parts_db import get_read_only_db
 from apps.spareparts.data.repository.unit_of_measure_group_repository import UnitOfMeasureGroupRepository
 from apps.spareparts.data.repository.unit_of_measure_repository import UnitOfMeasureRepository
 from apps.spareparts.di.repository_dependencies import RepositoryDI
@@ -14,3 +17,7 @@ class BLL_DI():
                         uomGroupRepo : UnitOfMeasureGroupRepository = Depends(RepositoryDI.unit_of_measure_group_repository),
                     ) -> UnitOfMeasureBLL:
         return UnitOfMeasureBLL(uomRepository= uomRepo, uomGroupRepository=uomGroupRepo)
+
+    @classmethod
+    def spare_part_bll(cls,db: ReadOnlyAsyncSession = Depends(get_read_only_db)) -> SparePartBLL:
+        return SparePartBLL(db = db)

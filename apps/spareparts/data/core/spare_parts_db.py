@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, AsyncEngin
 from sqlalchemy.orm import sessionmaker
 
 from apps.spareparts.config import settings
-from read_only_async_session import ReadOnlyAsyncSession
+from apps.spareparts.data.core.read_only_async_session import ReadOnlyAsyncSession
 
 
 def get_engine(url = settings.database_url) -> AsyncEngine :

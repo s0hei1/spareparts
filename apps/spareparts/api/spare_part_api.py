@@ -1,8 +1,10 @@
 from fastapi import APIRouter, Depends
 
+from apps.spareparts.buisness_logic_layer.spare_part.spare_part_bll import SparePartBLL
 from apps.spareparts.buisness_logic_layer.spare_part.spare_part_schema import SparePartCreate, SparePartRead, \
     SparePartUpdate, SparePartDeleteRead
 from apps.spareparts.data.repository.spare_part_repository import SparePartRepository
+from apps.spareparts.di.bll_dependencies import BLL_DI
 
 from apps.spareparts.di.repository_dependencies import RepositoryDI
 
@@ -14,9 +16,14 @@ spare_part_router = APIRouter(prefix="/sparepart", tags=["SpareParts"])
 async def create_spare_part(
     spare_part: SparePartCreate,
     repo: SparePartRepository = Depends(RepositoryDI.spare_part_repository),
-    business :
+    sparePartsBLL : SparePartBLL = Depends(BLL_DI.spare_part_bll)
 ):
-    return await repo.create(spare_part.to_dict())
+
+    code = await sparePartsBLL.generate_code(spare_part.sparepart_type_id)
+    spare_part = await sparePartsBLL.validate_properties(spare_part.sparepart_type_id, spare_part.properties)
+
+
+    return spare_part.to_sparepart(code)
 
 
 @spare_part_router.get("/read_many", response_model=list[SparePartRead])

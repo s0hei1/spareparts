@@ -1,13 +1,32 @@
 from pydantic import BaseModel
 
+from apps.spareparts.buisness_logic_layer.property.property_schema import PropertyCreate, PropertyRead
+from apps.spareparts.data.models.sparepart import SparePartType
+
 
 class SparePartTypeCreate(BaseModel):
     name: str
+    properties_id : list[int]
+
+
+    def to_sparepart_type(self):
+        return SparePartType(
+            name = self.name,
+        )
+
 
 
 class SparePartTypeUpdate(BaseModel):
     id: int
     name: str | None = None
+
+class SparePartTypeCreationRead(BaseModel):
+    id: int
+    name: str
+    properties: list[PropertyRead]
+
+    class Config:
+        orm_mode = True
 
 
 class SparePartTypeRead(BaseModel):
