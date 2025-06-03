@@ -13,11 +13,13 @@ class SparePartBLL:
     def __init__(self, db: ReadOnlyAsyncSession):
         self.db = db
 
-    async def sparepart_creation_process(self, spare_part_create : SparePartCreate):
+    async def sparepart_create_validation_process(self, sparepart_create : SparePartCreate) -> SparePartCreate:
 
-        pass
+        code = self.validate_properties(sparepart_create.sparepart_type_id, )
 
-    async def generate_code(self, spare_part_type_id : int):
+        return sparepart_create
+
+    async def generate_code(self, spare_part_type_id : int) -> str:
         qSymbol = await self.db.execute(
             select(SparePartType.symbol).where(SparePartType.id == spare_part_type_id)
         )

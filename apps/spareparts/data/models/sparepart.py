@@ -35,7 +35,6 @@ class SparePartTypeProperties(SQLAlchemyModel):
     id = Column(Integer, primary_key=True)
     spare_part_type_id = Column(Integer, ForeignKey('spare_part_type.id'), nullable=False)
     property_id = Column(Integer, ForeignKey('property.id'), nullable=False)
-    value = Column(String(64))
 
     spare_part_type = relationship("SparePartType", back_populates="properties")
     property = relationship("Property")

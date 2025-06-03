@@ -7,7 +7,7 @@ from apps.spareparts.buisness_logic_layer.uom.unit_of_measure_bll import UnitOfM
 from apps.spareparts.buisness_logic_layer.uom.uom_schema import UnitOfMeasureRead, UnitOfMeasureCreate
 from apps.spareparts.di.bll_dependencies import BLL_DI
 
-uom_router = APIRouter(prefix ='/uom')
+uom_router = APIRouter(prefix ='/uom', tags=['Unit of Measure'])
 
 
 @uom_router.get('/read_unit_of_measures', response_model=list[UnitOfMeasureRead])

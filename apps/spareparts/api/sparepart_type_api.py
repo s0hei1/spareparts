@@ -1,21 +1,29 @@
 from fastapi import APIRouter, Depends
 
 from apps.spareparts.buisness_logic_layer.sparepart_type.sparepart_type_schema import SparePartTypeCreate, \
-    SparePartTypeUpdate, SparePartTypeRead, SparePartTypeDeleteRead
+    SparePartTypeUpdate, SparePartTypeRead, SparePartTypeDeleteRead, SparePartTypeCreationRead
 from apps.spareparts.data.models.sparepart import SparePartType
+from apps.spareparts.data.repository.property_repository import PropertyRepository
 from apps.spareparts.data.repository.spare_part_type_repository import SparePartTypeRepository
 from apps.spareparts.di.repository_dependencies import RepositoryDI
 
 sparepart_type_router = APIRouter(prefix="/spare_part_types", tags=["Spare Part Types"])
 
 
-@sparepart_type_router.post("/add", response_model=SparePartTypeRead)
+@sparepart_type_router.post("/add", response_model=SparePartTypeCreationRead)
 async def create_sparepart_type(
-    dto: SparePartTypeCreate,
-    repo: SparePartTypeRepository = Depends(RepositoryDI.sparepart_type),
+    sparepart_type_create: SparePartTypeCreate,
+    sparepart_type_repo: SparePartTypeRepository = Depends(RepositoryDI.sparepart_type),
+    property_repo: PropertyRepository = Depends(RepositoryDI.property_repository),
 ):
-    model = SparePartType(**dto.dict())
-    return await repo.create(model)
+
+    result = await sparepart_type_repo.create(sparepart_type_create.to_sparepart_type())
+
+    # TODO : add validation for sparepart property IDs
+    for propertyId in sparepart_type_create.properties:
+        await sparepart_type_repo.create_sparepart_type_property(result.id, propertyId)
+
+    return result
 
 
 @sparepart_type_router.get("/read_one", response_model=SparePartTypeRead)

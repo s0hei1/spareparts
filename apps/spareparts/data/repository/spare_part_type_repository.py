@@ -3,7 +3,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm.exc import NoResultFound
 
-from apps.spareparts.data.models.sparepart import SparePartType
+from apps.spareparts.data.models.sparepart import SparePartType, SparePartTypeProperties
 
 
 class SparePartTypeRepository:
@@ -48,4 +48,15 @@ class SparePartTypeRepository:
 
         await self.db.delete(obj)
         await self.db.commit()
+        return obj
+
+    async def create_sparepart_type_property(self, sparepart_type_id, property_id) -> SparePartTypeProperties:
+        obj = SparePartTypeProperties(
+            spare_part_type_id = sparepart_type_id,
+            property_id = property_id
+        )
+
+        self.db.add(obj)
+        await self.db.commit()
+        await self.db.refresh(obj)
         return obj

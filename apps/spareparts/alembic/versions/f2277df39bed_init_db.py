@@ -1,8 +1,8 @@
-"""Init table
+"""init db
 
-Revision ID: 97b4b0154ab6
+Revision ID: f2277df39bed
 Revises: 
-Create Date: 2025-05-31 09:14:16.844148
+Create Date: 2025-06-03 08:30:45.457387
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '97b4b0154ab6'
+revision: str = 'f2277df39bed'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -49,6 +49,7 @@ def upgrade() -> None:
     op.create_table('spare_part_type',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=255), nullable=True),
+    sa.Column('symbol', sa.String(length=4), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('tag',
@@ -72,6 +73,15 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['factory_parts_id'], ['factory_parts.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('spare_part',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(length=255), nullable=True),
+    sa.Column('alias_name', sa.String(length=255), nullable=True),
+    sa.Column('spare_part_type_id', sa.Integer(), nullable=False),
+    sa.Column('code', sa.String(length=16), nullable=False),
+    sa.ForeignKeyConstraint(['spare_part_type_id'], ['spare_part_type.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('unit_of_measure',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=64), nullable=False),
@@ -83,7 +93,7 @@ def upgrade() -> None:
     op.create_table('property',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=255), nullable=True),
-    sa.Column('value_type', sa.Enum('INTEGER', 'STRING', 'BOOLEAN', name='propertyvaluetype'), nullable=True),
+    sa.Column('value_type', sa.Enum('INTEGER', 'STRING', 'BOOLEAN', 'FLOAT', name='propertyvaluetype'), nullable=True),
     sa.Column('unit_of_measure_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['unit_of_measure_id'], ['unit_of_measure.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -106,6 +116,7 @@ def downgrade() -> None:
     op.drop_table('spare_part_properties')
     op.drop_table('property')
     op.drop_table('unit_of_measure')
+    op.drop_table('spare_part')
     op.drop_table('machine_catalogs')
     op.drop_table('unit_of_measure_group')
     op.drop_table('tag')
