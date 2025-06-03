@@ -6,7 +6,7 @@ from alembic import context
 
 from apps.spareparts.config import settings
 
-from apps.spareparts.data.models.sparepart import UnitOfMeasureGroup, UnitOfMeasure, SQLAlchemyModel
+from apps.spareparts.data_layer.models.sparepart import UnitOfMeasureGroup, UnitOfMeasure, SQLAlchemyModel
 
 
 config = context.config
