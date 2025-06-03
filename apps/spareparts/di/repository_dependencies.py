@@ -1,17 +1,17 @@
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from apps.spareparts.data.core.spare_parts_db import get_db
-from apps.spareparts.data.repository.company_repository import CompanyRepository
-from apps.spareparts.data.repository.factory_parts_repository import FactoryPartsRepository
-from apps.spareparts.data.repository.location_repository import LocationRepository
-from apps.spareparts.data.repository.machine_catalog_repository import MachineCatalogRepository
-from apps.spareparts.data.repository.property_repository import PropertyRepository
-from apps.spareparts.data.repository.spare_part_repository import SparePartRepository
-from apps.spareparts.data.repository.spare_part_type_repository import SparePartTypeRepository
-from apps.spareparts.data.repository.tag_repository import TagRepository
-from apps.spareparts.data.repository.unit_of_measure_group_repository import UnitOfMeasureGroupRepository
-from apps.spareparts.data.repository.unit_of_measure_repository import UnitOfMeasureRepository
+from apps.spareparts.data_layer.core.spare_parts_db import get_db
+from apps.spareparts.data_layer.repository.company_repository import CompanyRepository
+from apps.spareparts.data_layer.repository.factory_parts_repository import FactoryPartsRepository
+from apps.spareparts.data_layer.repository.location_repository import LocationRepository
+from apps.spareparts.data_layer.repository.machine_catalog_repository import MachineCatalogRepository
+from apps.spareparts.data_layer.repository.property_repository import PropertyRepository
+from apps.spareparts.data_layer.repository.spare_part_repository import SparePartRepository
+from apps.spareparts.data_layer.repository.spare_part_type_repository import SparePartTypeRepository
+from apps.spareparts.data_layer.repository.tag_repository import TagRepository
+from apps.spareparts.data_layer.repository.unit_of_measure_group_repository import UnitOfMeasureGroupRepository
+from apps.spareparts.data_layer.repository.unit_of_measure_repository import UnitOfMeasureRepository
 
 class RepositoryDI():
 
