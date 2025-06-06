@@ -53,6 +53,15 @@ class UnitOfMeasureGroupRepository:
         await self.db.refresh(obj)
         return obj
 
-    # async def delete(self, id: int) -> UnitOfMeasureGroup:
-    #     pass
+    async def delete(self, id: int) -> UnitOfMeasureGroup:
+        q = select(UnitOfMeasureGroup).where(UnitOfMeasureGroup.id == id)
+        query_result = await self.db.execute(q)
+        obj = query_result.scalar_one_or_none()
+
+        if obj is None:
+            raise NoResultFound(f"Unit Of Measure Group with id: {id} does not exist")
+
+        await self.db.delete(obj)
+        await self.db.commit()
+        return obj
 

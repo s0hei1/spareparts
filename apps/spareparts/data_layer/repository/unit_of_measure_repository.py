@@ -2,6 +2,7 @@ from typing import Sequence
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 from sqlalchemy.orm.exc import NoResultFound
 from apps.spareparts.data_layer.models.sparepart import UnitOfMeasure, UnitOfMeasureGroup
 
@@ -12,26 +13,27 @@ class UnitOfMeasureRepository():
         self.db = db
 
     async def read_one(self, id : int) -> UnitOfMeasure:
-        q = select(UnitOfMeasure).where(UnitOfMeasure.id == id)
-        instance = (await self.db.execute(q)).scalar_one_or_none()
-        if not instance:
+        q = select(UnitOfMeasure).options(selectinload(UnitOfMeasure.group)).where(UnitOfMeasure.id == id)
+
+        obj = (await self.db.execute(q)).scalar_one_or_none()
+        if obj is None:
             raise NoResultFound(f"Unit of measure with id: {id} does not exist")
 
-        return instance
+        return obj
 
 
     async def read_many(self) -> Sequence[UnitOfMeasure] | None:
-        q = select(UnitOfMeasure, UnitOfMeasureGroup)
-        result = await self.db.execute(q)
-        instances = result.scalars().all()
-        return instances
+        q = select(UnitOfMeasure).options(selectinload(UnitOfMeasure.group))
+        query_result = await self.db.execute(q)
+        objs = query_result.scalars().all()
+        return objs
 
 
     async def create(self, uom: UnitOfMeasure) -> UnitOfMeasure:
         self.db.add(uom)
         await self.db.commit()
-        await self.db.refresh(uom)
-        return uom
+        return await self.read_one(uom.id)
+
 
     async def update(
         self,
