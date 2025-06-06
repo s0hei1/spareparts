@@ -16,7 +16,7 @@ class BLL_DI():
                         uomRepo : UnitOfMeasureRepository = Depends(RepositoryDI.unit_of_measure_repository),
                         uomGroupRepo : UnitOfMeasureGroupRepository = Depends(RepositoryDI.unit_of_measure_group_repository),
                     ) -> UnitOfMeasureBLL:
-        return UnitOfMeasureBLL(uomRepository= uomRepo, uomGroupRepository=uomGroupRepo)
+        return UnitOfMeasureBLL()
 
     @classmethod
     def spare_part_bll(cls,db: ReadOnlyAsyncSession = Depends(get_read_only_db)) -> SparePartBLL:

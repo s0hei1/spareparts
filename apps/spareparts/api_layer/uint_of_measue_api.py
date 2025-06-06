@@ -4,7 +4,7 @@ from sqlalchemy import Sequence
 from sqlalchemy.util import await_only
 from apps.spareparts.business_logic_layer.uom.unit_of_measure_bll import UnitOfMeasureBLL
 from apps.spareparts.business_logic_layer.uom.uom_schema import UnitOfMeasureRead, UnitOfMeasureCreate, \
-    UnitOfMeasureUpdate, UnitOfMeasureGroupCreate
+    UnitOfMeasureUpdate, UnitOfMeasureGroupCreate, UnitOfMeasureGroupRead, UnitOfMeasureGroupDelete
 from apps.spareparts.data_layer.repository.unit_of_measure_group_repository import UnitOfMeasureGroupRepository
 from apps.spareparts.data_layer.repository.unit_of_measure_repository import UnitOfMeasureRepository
 from apps.spareparts.di.bll_dependencies import BLL_DI
@@ -12,45 +12,55 @@ from apps.spareparts.di.repository_dependencies import RepositoryDI
 
 uom_router = APIRouter(prefix ='/uom', tags=['Unit of Measure'])
 
-@uom_router.get('/read_one', response_model=list[UnitOfMeasureRead])
-async def read_one_uom(
+@uom_router.get('/read_many', response_model=list[UnitOfMeasureRead])
+async def read_many(
         uom_repo: UnitOfMeasureRepository = Depends(RepositoryDI.unit_of_measure_repository)
 ):
-    return await uom_repo.read_many()
+    objs = await uom_repo.read_many()
+    return UnitOfMeasureRead.from_unit_of_measures(objs)
 
-@uom_router.get('/read_many', response_model=list[UnitOfMeasureRead])
-async def read_many_uom(
+@uom_router.get('/read_one', response_model=UnitOfMeasureRead)
+async def read_one(
         id : int,
         uom_repo: UnitOfMeasureRepository = Depends(RepositoryDI.unit_of_measure_repository)
 ):
-    return await uom_repo.read_one(id=id)
+    obj= await uom_repo.read_one(id=id)
+    return UnitOfMeasureRead.from_unit_of_measure(obj)
 
 @uom_router.post('/add', response_model= UnitOfMeasureRead )
 async def add_uom(uom_create : UnitOfMeasureCreate,
                   uom_repo : UnitOfMeasureRepository = Depends(RepositoryDI.unit_of_measure_repository)
                   ):
-    return await uom_repo.create(uom_create.to_unit_of_measure())
+    obj =  await uom_repo.create(uom_create.to_unit_of_measure())
+    return UnitOfMeasureRead.from_unit_of_measure(obj)
 
 @uom_router.put('/update', response_model= UnitOfMeasureRead )
-async def add_uom(uom_update : UnitOfMeasureUpdate,
+async def update_uom(uom_update : UnitOfMeasureUpdate,
                   uom_repo : UnitOfMeasureRepository = Depends(RepositoryDI.unit_of_measure_repository)
                   ):
     return await uom_repo.update(**uom_update.model_dump())
 
 @uom_router.delete('/delete', response_model= UnitOfMeasureRead )
-async def add_uom(id: int,
+async def delete_uom(id: int,
                   uom_repo : UnitOfMeasureRepository = Depends(RepositoryDI.unit_of_measure_repository)
                   ):
     return await uom_repo.delete(id= id)
 
-@uom_router.get('/read_many_groups', response_model=list[UnitOfMeasureRead])
-async def read_many(
+@uom_router.get('/read_many_groups', response_model=list[UnitOfMeasureGroupRead])
+async def read_many_groups(
         uom_group_repo: UnitOfMeasureGroupRepository = Depends(RepositoryDI.unit_of_measure_group_repository)
 ):
     return await uom_group_repo.read_many()
 
-@uom_router.post('/add_group', response_model= UnitOfMeasureRead )
-async def add_uom(uom_create : UnitOfMeasureGroupCreate,
+@uom_router.post('/add_group', response_model= UnitOfMeasureGroupRead )
+async def add_uom_group(uom_create : UnitOfMeasureGroupCreate,
                   uom_group_repo: UnitOfMeasureGroupRepository = Depends(RepositoryDI.unit_of_measure_group_repository)
                   ):
     return await uom_group_repo.create(uom_create.to_unit_of_measure_group())
+
+@uom_router.delete('/delete_group', response_model= UnitOfMeasureGroupDelete )
+async def delete_uom_group(id: int,
+                           uom_group_repo: UnitOfMeasureGroupRepository = Depends(
+                               RepositoryDI.unit_of_measure_group_repository)
+                           ):
+    return await uom_group_repo.delete(id)

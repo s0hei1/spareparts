@@ -1,5 +1,5 @@
 from pydantic import BaseModel, computed_field
-from typing import Optional
+from typing import Optional, Sequence
 
 from apps.spareparts.data_layer.models.sparepart import UnitOfMeasure, UnitOfMeasureGroup
 
@@ -7,11 +7,8 @@ from apps.spareparts.data_layer.models.sparepart import UnitOfMeasure, UnitOfMea
 class UnitOfMeasureCreate(BaseModel):
     name : str
     unit_in_group : float | None = None
-    group_id : Optional[int] = None
+    group_id : int
 
-    model_config = {
-        "from_attributes": True,
-    }
 
     def to_unit_of_measure(self) -> UnitOfMeasure:
         return UnitOfMeasure(
@@ -30,18 +27,28 @@ class UnitOfMeasureGroupCreate(BaseModel):
 
 
 class UnitOfMeasureRead(BaseModel):
+    id : int
     name : str
     unit_in_group : float | None
-    # group_name : str
-    #
-    # @computed_field
-    # @property
-    # def group_name(self) -> str:
-    #     return self.__pydantic_self__.group.name
+    group_name : str
+
 
     class Config:
         from_attributes = True
 
+    @classmethod
+    def from_unit_of_measure(cls, unit_of_measure: UnitOfMeasure) -> 'UnitOfMeasureRead':
+        return UnitOfMeasureRead(
+            id = unit_of_measure.id,
+            name = unit_of_measure.name,
+            unit_in_group= unit_of_measure.unit_in_group,
+            group_name = unit_of_measure.group.name,
+        )
+
+    @classmethod
+    def from_unit_of_measures(cls,unit_of_measures : Sequence[UnitOfMeasure] ) -> Sequence['UnitOfMeasureRead']:
+        result = [cls.from_unit_of_measure(uom) for uom in unit_of_measures]
+        return result
 
 
 class UnitOfMeasureUpdate(BaseModel):
@@ -52,4 +59,13 @@ class UnitOfMeasureUpdate(BaseModel):
 
 
 class UnitOfMeasureGroupRead(BaseModel):
+    id : int
     name : str
+
+class UnitOfMeasureGroupDelete(BaseModel):
+
+    id: int
+    message: str = "UOM Group is deleted successfully"
+
+    class Config:
+            orm_mode = True
