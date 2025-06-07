@@ -55,3 +55,4 @@ async def delete_spare_part(
 ):
     await repo.delete(id)
     return SparePartDeleteRead(id=id)
+
