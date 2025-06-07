@@ -32,14 +32,24 @@ class SparePartTypeCreationRead(BaseModel):
 class SparePartTypeRead(BaseModel):
     id: int
     name: str
+    properties: list['SparePartTypePropertiesRead']
+
+
 
     class Config:
         orm_mode = True
 
 
+
 class SparePartTypeDeleteRead(BaseModel):
     id: int
     message: str = "Spare part type deleted successfully"
+
+    class Config:
+        orm_mode = True
+
+class SparePartTypePropertiesRead(BaseModel):
+    property_id: int
 
     class Config:
         orm_mode = True
