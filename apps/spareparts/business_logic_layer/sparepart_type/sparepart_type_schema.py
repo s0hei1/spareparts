@@ -7,11 +7,13 @@ from apps.spareparts.data_layer.models.sparepart import SparePartType
 class SparePartTypeCreate(BaseModel):
     name: str
     properties_id : list[int]
+    symbol : str
 
 
     def to_sparepart_type(self):
         return SparePartType(
             name = self.name,
+            symbol = self.symbol,
         )
 
 
@@ -20,18 +22,12 @@ class SparePartTypeUpdate(BaseModel):
     id: int
     name: str | None = None
 
-class SparePartTypeCreationRead(BaseModel):
-    id: int
-    name: str
-    properties: list[PropertyRead]
-
-    class Config:
-        orm_mode = True
 
 
 class SparePartTypeRead(BaseModel):
     id: int
     name: str
+    symbol : str
     properties: list['SparePartTypePropertiesRead']
 
 

@@ -15,14 +15,17 @@ spare_part_router = APIRouter(prefix="/sparepart", tags=["SpareParts"])
 @spare_part_router.post("/create", response_model=SparePartRead)
 async def create_spare_part(
     spare_part: SparePartCreate,
-    repo: SparePartRepository = Depends(RepositoryDI.spare_part_repository),
+    sparepart_repo: SparePartRepository = Depends(RepositoryDI.spare_part_repository),
     sparePartsBLL : SparePartBLL = Depends(BLL_DI.spare_part_bll)
 ):
 
     code = await sparePartsBLL.generate_code(spare_part.sparepart_type_id)
 
+    obj = spare_part.to_sparepart(code)
 
-    return spare_part.to_sparepart(code)
+    result = await sparepart_repo.create(obj)
+
+    return result
 
 
 @spare_part_router.get("/read_many", response_model=list[SparePartRead])
