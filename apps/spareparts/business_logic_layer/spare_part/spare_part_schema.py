@@ -18,10 +18,11 @@ class SparePartCreate(BaseModel):
 
     def to_sparepart(self, code: str):
         return SparePart(
+            id = 1,
             name = self.name,
             alias_name = self.alias_name,
             spare_part_type_id = self.sparepart_type_id,
-            code = self.code,
+            code = code
         )
 
 class SparePartCreatePartNumbers(BaseModel):
@@ -49,11 +50,11 @@ class SparePartRead(BaseModel):
     id: int
     name: str
     alias_name: str | None
-    sparePartType: int
+    spare_part_type_id: int
     code: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class SparePartDeleteRead(BaseModel):
