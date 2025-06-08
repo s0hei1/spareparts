@@ -15,7 +15,7 @@ class TagRead(BaseModel):
     title: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class TagDeleteRead(BaseModel):
@@ -23,4 +23,4 @@ class TagDeleteRead(BaseModel):
     message: str = "Tag deleted successfully"
 
     class Config:
-        orm_mode = True
+        from_attributes = True

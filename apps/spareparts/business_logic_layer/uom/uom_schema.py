@@ -68,4 +68,4 @@ class UnitOfMeasureGroupDelete(BaseModel):
     message: str = "UOM Group is deleted successfully"
 
     class Config:
-            orm_mode = True
+            from_attributes = True
