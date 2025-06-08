@@ -26,10 +26,10 @@ class SparePartBLL:
         symbol : str | None = qSymbol.scalar_one_or_none()
 
         if symbol is None:
-            raise ValueError(f"SparePart type {spare_part_type_id} not found")
+            symbol = "GN"
 
         qMaxCode = await self.db.execute(
-            select(func.max(SparePart.code)).where(SparePart.spare_part_type_id == spare_part_type_id).max()
+            select(func.max(SparePart.code)).where(SparePart.spare_part_type_id == spare_part_type_id)
         )
         max_code : str | None = qMaxCode.scalar_one_or_none()
 

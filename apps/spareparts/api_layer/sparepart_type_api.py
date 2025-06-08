@@ -36,7 +36,7 @@ async def read_sparepart_type(
     return await repo.read_one(id)
 
 
-@sparepart_type_router.get("read_many", response_model=list[SparePartTypeRead])
+@sparepart_type_router.get("/read_many", response_model=list[SparePartTypeRead])
 async def read_many_sparepart_types(
         repo: SparePartTypeRepository = Depends(RepositoryDI.sparepart_type),
 ):
