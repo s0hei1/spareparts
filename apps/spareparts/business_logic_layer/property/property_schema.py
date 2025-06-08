@@ -31,7 +31,7 @@ class PropertyRead(BaseModel):
     unit_of_measure_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class PropertyDeleteRead(BaseModel):
@@ -39,4 +39,4 @@ class PropertyDeleteRead(BaseModel):
     message: str = "Property deleted successfully"
 
     class Config:
-        orm_mode = True
+        from_attributes = True

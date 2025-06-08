@@ -62,4 +62,4 @@ class SparePartDeleteRead(BaseModel):
     message: str = "Delete spare part was successful"
 
     class Config:
-        orm_mode = True
+        from_attributes = True

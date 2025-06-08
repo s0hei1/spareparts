@@ -33,7 +33,7 @@ class SparePartTypeRead(BaseModel):
 
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 
@@ -42,10 +42,10 @@ class SparePartTypeDeleteRead(BaseModel):
     message: str = "Spare part type deleted successfully"
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class SparePartTypePropertiesRead(BaseModel):
     property_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True

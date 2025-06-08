@@ -33,7 +33,7 @@ class LocationRead(BaseModel):
     floor: int | None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class LocationDeleteRead(BaseModel):
@@ -41,4 +41,4 @@ class LocationDeleteRead(BaseModel):
     message: str = "Delete location was successful"
 
     class Config:
-        orm_mode = True
+        from_attributes = True

@@ -43,5 +43,5 @@ class MachineCatalogDeleteRead(BaseModel):
     id : int
     message : str = "Delete machine catalog was successful"
     class Config:
-        orm_mode = True
+        from_attributes = True
 

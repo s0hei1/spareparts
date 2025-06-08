@@ -23,7 +23,7 @@ class FactoryPartRead(BaseModel):
 
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class FactoryPartUpdate(BaseModel):
     id : int
@@ -35,6 +35,6 @@ class FactoryPartDelete(BaseModel):
     id : int
     message : str = "Delete factory part was successful"
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
