@@ -1,3 +1,5 @@
 playground/
 
 .venv/
+
+*/__pycache__

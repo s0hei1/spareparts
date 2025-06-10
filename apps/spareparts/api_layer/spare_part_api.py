@@ -50,7 +50,6 @@ async def update_spare_part(
 ):
     return await repo.update(**spare_part.model_dump())
 
-
 @spare_part_router.delete("/delete", response_model=SparePartDeleteRead)
 async def delete_spare_part(
     id: int,

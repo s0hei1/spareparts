@@ -18,7 +18,6 @@ class SparePartCreate(BaseModel):
 
     def to_sparepart(self, code: str):
         return SparePart(
-            id = 1,
             name = self.name,
             alias_name = self.alias_name,
             spare_part_type_id = self.sparepart_type_id,
@@ -42,7 +41,6 @@ class SparePartUpdate(BaseModel):
     id: int
     name: str | None = None
     alias_name: str | None = None
-    sparePartType: int | None = None
     code: str | None = None
 
 
