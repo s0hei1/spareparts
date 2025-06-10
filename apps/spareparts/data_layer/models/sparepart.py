@@ -48,7 +48,8 @@ class SparePart(SQLAlchemyModel):
     name = Column(String(255))
     alias_name = Column(String(255), nullable=True)
     spare_part_type_id = Column(Integer, ForeignKey('spare_part_type.id'), nullable=False)
-    code = Column(String(16), nullable=False)
+    code = Column(String(16), nullable=False, unique=True)
+    is_active = Column(Boolean, default=False)
 
     spare_part_type = relationship("SparePartType", back_populates="spare_parts")
 

@@ -30,12 +30,15 @@ class SparePartRepository:
         await self.db.refresh(spare_part)
         return spare_part
 
+    """
+    WARNING : dont update SparePart.spare_part_type_id
+    because it requires to implement many changes and complex business rules in code generation and property values edition
+    """
     async def update(
         self,
         id: int,
         name: str | None = None,
         alias_name: str | None = None,
-        sparePartType: int | None = None,
         code: str | None = None,
     ) -> SparePart:
         q = await self.db.execute(
@@ -49,8 +52,6 @@ class SparePartRepository:
             obj.name = name
         if alias_name is not None:
             obj.alias_name = alias_name
-        if sparePartType is not None:
-            obj.sparePartType = sparePartType
         if code is not None:
             obj.code = code
 
