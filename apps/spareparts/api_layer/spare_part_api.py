@@ -9,7 +9,7 @@ from apps.spareparts.di.bll_dependencies import BLL_DI
 
 from apps.spareparts.di.repository_dependencies import RepositoryDI
 
-spare_part_router = APIRouter(prefix="/sparepart", tags=["SpareParts"])
+spare_part_router = APIRouter(prefix="/sparepart", tags=["Spare Parts"])
 
 
 

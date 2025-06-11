@@ -7,7 +7,7 @@ from apps.spareparts.data_layer.repository import machine_catalog_repository
 from apps.spareparts.data_layer.repository.machine_catalog_repository import MachineCatalogRepository
 from apps.spareparts.di.repository_dependencies import RepositoryDI
 
-machine_catalog_router = APIRouter()
+machine_catalog_router = APIRouter(prefix='/machine_catalogs', tags=['Machine Catalogs'])
 
 
 
