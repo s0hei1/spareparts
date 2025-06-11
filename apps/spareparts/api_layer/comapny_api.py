@@ -4,7 +4,7 @@ from apps.spareparts.business_logic_layer.company.company_schema import CompanyR
 from apps.spareparts.data_layer.repository.company_repository import CompanyRepository
 from apps.spareparts.di.repository_dependencies import RepositoryDI
 
-company_router = APIRouter(prefix='/company')
+company_router = APIRouter(prefix='/company', tags=['Company'])
 
 
 @company_router.get('/read_company', response_model=CompanyRead)

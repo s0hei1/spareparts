@@ -5,7 +5,7 @@ from apps.spareparts.business_logic_layer.factory_parts.factory_parts_schema imp
 from apps.spareparts.data_layer.repository.factory_parts_repository import FactoryPartsRepository
 from apps.spareparts.di.repository_dependencies import RepositoryDI
 
-factory_parts_router = APIRouter(prefix='/factory_part')
+factory_parts_router = APIRouter(prefix='/factory_part', tags=['Factory Parts'])
 
 @factory_parts_router.post('/add_factory_part', response_model=FactoryPartRead)
 async def add_factory_part(
