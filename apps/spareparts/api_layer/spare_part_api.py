@@ -2,7 +2,8 @@ from fastapi import APIRouter, Depends
 
 from apps.spareparts.business_logic_layer.spare_part.spare_part_bll import SparePartBLL
 from apps.spareparts.business_logic_layer.spare_part.spare_part_schema import SparePartCreate, SparePartRead, \
-    SparePartUpdate, SparePartDeleteRead
+    SparePartUpdate, SparePartDeleteRead, SparePartPropertyValueRead, SparePartPropertyValueCreate
+from apps.spareparts.data_layer.repository.spare_part_property_value import SparePartPropertyValueRepository
 from apps.spareparts.data_layer.repository.spare_part_repository import SparePartRepository
 from apps.spareparts.di.bll_dependencies import BLL_DI
 
@@ -57,4 +58,18 @@ async def delete_spare_part(
 ):
     await repo.delete(id)
     return SparePartDeleteRead(id=id)
+
+@spare_part_router.post('/add_spare_part_property_value', response_model=SparePartPropertyValueRead)
+async def add_spare_part_property_value(
+        create_model : SparePartPropertyValueCreate,
+        spare_part_property_value_repo : SparePartPropertyValueRepository =  Depends(RepositoryDI.spare_part_property_value_repository),
+        sparePartsBLL: SparePartBLL = Depends(BLL_DI.spare_part_bll)
+):
+    create_model = await sparePartsBLL.validate_spare_part_property_value(create_model)
+
+    result = await spare_part_property_value_repo.create(create_model.to_spare_part_property_value())
+
+    return result
+
+
 

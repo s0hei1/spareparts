@@ -40,6 +40,7 @@ class SparePartTypeProperties(SQLAlchemyModel):
 
     spare_part_type = relationship("SparePartType", back_populates="properties")
     property = relationship("Property")
+    spare_part_type_property_values = relationship("SparePartPropertyValue")
 
 class SparePart(SQLAlchemyModel):
     __tablename__ = 'spare_part'
@@ -53,7 +54,16 @@ class SparePart(SQLAlchemyModel):
 
     spare_part_type = relationship("SparePartType", back_populates="spare_parts")
 
+class SparePartPropertyValue(SQLAlchemyModel):
+    __tablename__ = 'spare_part_property_value'
 
+    id = Column(Integer, primary_key=True)
+    spare_part_type_property_id = Column(Integer, ForeignKey('spare_part_properties.id'), nullable=False)
+    spare_part_id = Column(Integer, ForeignKey('spare_part.id'), nullable=False)
+    value = Column(String(255), nullable=True)
+
+    spare_part_type_property = relationship("SparePartTypeProperties")
+    spare_part = relationship("SparePart")
 
 
 class FactoryParts(SQLAlchemyModel):
