@@ -1,7 +1,10 @@
 from fastapi import APIRouter, Depends
 
-from apps.spareparts.business_logic_layer.company.company_schema import CompanyRead, CompanyCreate, CompanyUpdate
+from apps.spareparts.business_logic_layer.company.company_bll import CompanyBLL
+from apps.spareparts.business_logic_layer.company.company_schema import CompanyRead, CompanyCreate, CompanyUpdate, \
+    CompanyDelete
 from apps.spareparts.data_layer.repository.company_repository import CompanyRepository
+from apps.spareparts.di.bll_dependencies import BLL_DI
 from apps.spareparts.di.repository_dependencies import RepositoryDI
 
 company_router = APIRouter(prefix='/company', tags=['Company'])
@@ -22,21 +25,25 @@ async def read_companies(
 
 @company_router.post('/add_company', response_model=CompanyRead)
 async def add_company(company: CompanyCreate,
-                      companyRepo: CompanyRepository = Depends(RepositoryDI.company_repository)):
+                      companyRepo: CompanyRepository = Depends(RepositoryDI.company_repository),
+                      company_bll : CompanyBLL = Depends(BLL_DI.company_bll)
+                      ):
+    company = await company_bll.company_validation(company)
+
     result = await companyRepo.create(company.to_company())
 
     return result
 
 
 @company_router.put('/update_company', response_model=CompanyRead)
-async def add_company(company: CompanyUpdate,
-                      companyRepo: CompanyRepository = Depends(RepositoryDI.company_repository)):
+async def update_company(company: CompanyUpdate,
+                      companyRepo: CompanyRepository = Depends(RepositoryDI.company_repository),):
     result = await companyRepo.update(**company.model_dump())
 
     return result
 
 
-@company_router.delete('/delete_company', response_model=CompanyRead)
+@company_router.delete('/delete_company', response_model=CompanyDelete)
 async def delete_company(id: int, companyRepo=Depends(RepositoryDI.company_repository)):
     result = await companyRepo.delete(id)
     return result

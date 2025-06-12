@@ -1,5 +1,6 @@
 from fastapi.params import Depends
 
+from apps.spareparts.business_logic_layer.company.company_bll import CompanyBLL
 from apps.spareparts.business_logic_layer.spare_part.spare_part_bll import SparePartBLL
 from apps.spareparts.business_logic_layer.uom.unit_of_measure_bll import UnitOfMeasureBLL
 from apps.spareparts.data_layer.core.read_only_async_session import ReadOnlyAsyncSession
@@ -21,3 +22,7 @@ class BLL_DI():
     @classmethod
     def spare_part_bll(cls,db: ReadOnlyAsyncSession = Depends(get_read_only_db)) -> SparePartBLL:
         return SparePartBLL(db = db)
+
+    @classmethod
+    def company_bll(cls):
+        return CompanyBLL()
