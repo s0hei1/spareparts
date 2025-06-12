@@ -21,5 +21,3 @@ async def get_db():
 async def get_read_only_db():
     async with ReadOnlyAsyncSession() as session:
         yield session
-
-

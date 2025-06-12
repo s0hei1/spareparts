@@ -10,20 +10,20 @@ from apps.spareparts.di.repository_dependencies import RepositoryDI
 company_router = APIRouter(prefix='/company', tags=['Company'])
 
 
-@company_router.get('/read_company', response_model=CompanyRead)
+@company_router.get('/read_one', response_model=CompanyRead)
 async def read_company(
         id: int,
         companyRepo: CompanyRepository = Depends(RepositoryDI.company_repository)):
     return await companyRepo.read_one(id)
 
 
-@company_router.get('/read_companies', response_model=list[CompanyRead])
+@company_router.get('/read_many', response_model=list[CompanyRead])
 async def read_companies(
         companyRepo: CompanyRepository = Depends(RepositoryDI.company_repository)):
     return await companyRepo.read_many()
 
 
-@company_router.post('/add_company', response_model=CompanyRead)
+@company_router.post('/create', response_model=CompanyRead)
 async def add_company(company: CompanyCreate,
                       companyRepo: CompanyRepository = Depends(RepositoryDI.company_repository),
                       company_bll : CompanyBLL = Depends(BLL_DI.company_bll)
@@ -35,7 +35,7 @@ async def add_company(company: CompanyCreate,
     return result
 
 
-@company_router.put('/update_company', response_model=CompanyRead)
+@company_router.put('/update', response_model=CompanyRead)
 async def update_company(company: CompanyUpdate,
                       companyRepo: CompanyRepository = Depends(RepositoryDI.company_repository),):
     result = await companyRepo.update(**company.model_dump())
@@ -43,7 +43,8 @@ async def update_company(company: CompanyUpdate,
     return result
 
 
-@company_router.delete('/delete_company', response_model=CompanyDelete)
+@company_router.delete('/delete', response_model=CompanyDelete)
 async def delete_company(id: int, companyRepo=Depends(RepositoryDI.company_repository)):
     result = await companyRepo.delete(id)
     return result
+
