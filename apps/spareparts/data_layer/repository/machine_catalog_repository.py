@@ -52,17 +52,17 @@ class MachineCatalogRepository:
         if not obj:
             raise NoResultFound(f"Machine catalog with id: {id} does not exist")
 
-        if machine_name:
+        if machine_name is not None:
             obj.machine_name = machine_name
-        if location_in_factory:
+        if location_in_factory is not None:
             obj.location_in_factory = location_in_factory
-        if factory_part_id:
+        if factory_part_id is not None:
             obj.factory_part_id = factory_part_id
-        if description:
+        if description is not None:
             obj.description = description
-        if model_name:
+        if model_name is not None:
             obj.model_name = model_name
-        if is_tool:
+        if is_tool is not None:
             obj.is_tool = is_tool
 
         await self.db.commit()
