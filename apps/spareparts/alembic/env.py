@@ -8,7 +8,6 @@ from apps.spareparts.config import settings
 
 from apps.spareparts.data_layer.models.sparepart import UnitOfMeasureGroup, UnitOfMeasure, SQLAlchemyModel
 
-
 config = context.config
 
 
