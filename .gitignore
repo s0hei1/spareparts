@@ -4,4 +4,4 @@ playground/
 
 */__pycache__
 
-./apps/spareparts/.env
+apps/spareparts/.env
