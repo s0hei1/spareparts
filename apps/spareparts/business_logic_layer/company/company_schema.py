@@ -6,8 +6,8 @@ class CompanyCreate(BaseModel):
     name: str
     location: str
     description: str
-    website: EmailStr | None = None
-    contactEmail: HttpUrl | None = None
+    website: HttpUrl | None = None
+    contactEmail: EmailStr | None = None
 
     def to_company(self):
         return Company(
@@ -20,6 +20,7 @@ class CompanyCreate(BaseModel):
 
 
 class CompanyRead(BaseModel):
+    id : int
     name: str
     location: str
     description: str
