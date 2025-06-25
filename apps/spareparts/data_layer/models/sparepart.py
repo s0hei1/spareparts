@@ -66,11 +66,11 @@ class SparePartPropertyValue(SQLAlchemyModel):
     spare_part = relationship("SparePart")
 
 
-class FactoryParts(SQLAlchemyModel):
-    __tablename__ = 'factory_parts'
+class FactoryPart(SQLAlchemyModel):
+    __tablename__ = 'factory_part'
     id = Column(Integer, primary_key=True)
     name = Column(String(255), nullable=False)
-    parentId = Column(Integer, ForeignKey('factory_parts.id'), nullable=True)
+    parentId = Column(Integer, ForeignKey('factory_part.id'), nullable=True)
     description = Column(String(1024), nullable=True)
 
     parent = relationship('FactoryParts')
@@ -80,12 +80,12 @@ class MachineCatalog(SQLAlchemyModel):
     id = Column(Integer, primary_key=True)
     machine_name = Column(String(256), nullable= False)
     location_in_factory  = Column(String(256), nullable= True)
-    factory_parts_id  = Column(Integer, ForeignKey('factory_parts.id'), nullable= True)
+    factory_part_id  = Column(Integer, ForeignKey('factory_part.id'), nullable= True)
     description = Column(String(1024), nullable= True)
     model_name = Column(String(256), nullable= False)
     is_tool = Column(Boolean, nullable= False, default= False)
 
-    factory_part = relationship('FactoryParts')
+    factory_part = relationship('FactoryPart')
 
 
 # class MachinesSpareParts(SQLAlchemyModel):
