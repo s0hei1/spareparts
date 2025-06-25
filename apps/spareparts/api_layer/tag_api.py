@@ -5,10 +5,10 @@ from apps.spareparts.data_layer.models.sparepart import Tag
 from apps.spareparts.data_layer.repository.tag_repository import TagRepository
 from apps.spareparts.di.repository_dependencies import RepositoryDI
 
-tag_router = APIRouter(prefix="/tags", tags=["Tags"])
+tag_router = APIRouter(prefix="/tag", tags=["Tag"])
 
 
-@tag_router.post("", response_model=TagRead)
+@tag_router.post("/create", response_model=TagRead)
 async def create_tag(
     tag_create: TagCreate,
     repo: TagRepository = Depends(RepositoryDI.tag_repository),
@@ -25,7 +25,7 @@ async def read_one_tag(
     return await repo.read_one(id)
 
 
-@tag_router.get("read_many", response_model=list[TagRead])
+@tag_router.get("/read_many/", response_model=list[TagRead])
 async def read_many_tags(
     repo: TagRepository = Depends(RepositoryDI.tag_repository),
 ):

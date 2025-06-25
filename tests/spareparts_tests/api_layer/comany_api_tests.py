@@ -1,8 +1,6 @@
 import pytest
 from httpx import AsyncClient
 from fastapi import FastAPI
-
-from apps.spareparts.data_layer.core.spare_parts_db import get_db
 from global_fixtures import app,async_client
 
 
@@ -57,7 +55,7 @@ async def test_read_company(
 ):
     response = await async_client.get(url = "/company/read_one", params= {"id" : 1})
     assert response.status_code == 200
-    print(response.json())
+
 
 @pytest.mark.asyncio
 async def test_delete_company(
