@@ -7,13 +7,6 @@ from sqlalchemy.ext.declarative import declarative_base
 
 SQLAlchemyModel = declarative_base()
 
-#
-# class Warehouse(SQLAlchemyModel):
-#     __tablename__ = 'warehouse'
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String)
-#
-
 class Property(SQLAlchemyModel):
     __tablename__ = 'property'
     id = Column(Integer, primary_key=True)
@@ -73,7 +66,7 @@ class FactoryPart(SQLAlchemyModel):
     parentId = Column(Integer, ForeignKey('factory_part.id'), nullable=True)
     description = Column(String(1024), nullable=True)
 
-    parent = relationship('FactoryParts')
+    parent = relationship('FactoryPart')
 
 class MachineCatalog(SQLAlchemyModel):
     __tablename__ = 'machine_catalogs'
@@ -87,17 +80,10 @@ class MachineCatalog(SQLAlchemyModel):
 
     factory_part = relationship('FactoryPart')
 
-
-# class MachinesSpareParts(SQLAlchemyModel):
-#     __tablename__ = 'machines_spare_parts'
-#     id = Column(Integer, primary_key=True)
-
 class UnitOfMeasureGroup(SQLAlchemyModel):
     __tablename__ = 'unit_of_measure_group'
     id = Column(Integer, primary_key=True)
     name = Column(String(64), nullable=False)
-
-
 
 class UnitOfMeasure(SQLAlchemyModel):
     __tablename__ = 'unit_of_measure'
@@ -133,3 +119,13 @@ class Tag(SQLAlchemyModel):
     __tablename__ = 'tag'
     id = Column(Integer, primary_key=True)
     title = Column(String(255), nullable=False)
+
+class PartNumber(SQLAlchemyModel):
+    __tablename__ = 'part_number'
+    id = Column(Integer, primary_key=True)
+    part_number = Column(String(255), nullable=False)
+    spare_part_id = Column(Integer, ForeignKey('spare_part.id'), nullable=False)
+    company_id = Column(Integer, ForeignKey('company.id'), nullable=False)
+
+    spare_part = relationship("SparePart")
+    company = relationship("Company")

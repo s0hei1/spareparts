@@ -6,7 +6,7 @@ from apps.spareparts.admin.admin_models import (
     SparePartTypeAdmin,
     SparePartTypePropertiesAdmin,
     SparePartAdmin,
-    FactoryPartsAdmin,
+    FactoryPartAdmin,
     MachineCatalogAdmin,
     UnitOfMeasureGroupAdmin,
     UnitOfMeasureAdmin,
@@ -27,7 +27,7 @@ def config_admin(app: FastAPI, async_engine: AsyncEngine | None = None) -> None:
     admin.add_view(SparePartTypeAdmin)
     admin.add_view(SparePartTypePropertiesAdmin)
     admin.add_view(SparePartAdmin)
-    admin.add_view(FactoryPartsAdmin)
+    admin.add_view(FactoryPartAdmin)
     admin.add_view(MachineCatalogAdmin)
     admin.add_view(UnitOfMeasureGroupAdmin)
     admin.add_view(UnitOfMeasureAdmin)

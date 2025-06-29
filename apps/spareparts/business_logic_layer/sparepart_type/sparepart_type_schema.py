@@ -6,7 +6,7 @@ from apps.spareparts.data_layer.models.sparepart import SparePartType
 
 class SparePartTypeCreate(BaseModel):
     name: str
-    properties_id : list[int]
+    properties_id : list[int] = []
     symbol : str
 
 

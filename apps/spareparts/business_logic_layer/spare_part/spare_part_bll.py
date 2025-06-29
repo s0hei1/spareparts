@@ -19,7 +19,7 @@ class SparePartBLL:
 
     async def sparepart_create_validation_process(self, sparepart_create: SparePartCreate) -> SparePartCreate:
 
-        code = self.validate_properties(sparepart_create.sparepart_type_id, )
+        code = self.validate_properties(sparepart_create.spare_part_type_id, )
 
         return sparepart_create
 

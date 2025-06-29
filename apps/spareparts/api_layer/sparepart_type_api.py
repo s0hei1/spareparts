@@ -3,12 +3,10 @@ from fastapi import APIRouter, Depends
 from apps.spareparts.business_logic_layer.sparepart_type.sparepart_type_schema import SparePartTypeCreate, \
     SparePartTypeUpdate, SparePartTypeRead, SparePartTypeDeleteRead, \
     SparePartTypePropertiesRead
-from apps.spareparts.data_layer.models.sparepart import SparePartType
-from apps.spareparts.data_layer.repository.property_repository import PropertyRepository
 from apps.spareparts.data_layer.repository.spare_part_type_repository import SparePartTypeRepository
 from apps.spareparts.di.repository_dependencies import RepositoryDI
 
-sparepart_type_router = APIRouter(prefix="/spare_part_types", tags=["Spare Part Types"])
+sparepart_type_router = APIRouter(prefix="/spare-part-types", tags=["Spare Part Types"])
 
 
 @sparepart_type_router.post("/create", response_model=SparePartTypeRead)
