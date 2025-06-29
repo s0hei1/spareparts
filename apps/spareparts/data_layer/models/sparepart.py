@@ -124,9 +124,9 @@ class Company(SQLAlchemyModel):
 class Location(SQLAlchemyModel):
     __tablename__ = 'location'
     id = Column(Integer, primary_key=True)
-    x = Column(String(15))
-    y = Column(String(15))
-    z = Column(String(15))
+    shelf = Column(String(8))
+    column = Column(Integer)
+    row = Column(Integer)
     floor = Column(Integer, nullable=True)
 
 class Tag(SQLAlchemyModel):
