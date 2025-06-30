@@ -2,7 +2,7 @@ import pytest
 from httpx import AsyncClient
 from fastapi import FastAPI
 from global_fixtures import app,async_client
-from more_itertools import first
+from more_itertools import first,last
 
 @pytest.fixture
 def fake_part_number(
@@ -37,7 +37,6 @@ async def test_read_part_number(
     assert response.json().get("part_number") != None
     assert response.json().get("spare_part_id") != None
     assert response.json().get("company_id") != None
-    response.json().get("something_else")
 
 
 @pytest.mark.asyncio
@@ -46,26 +45,28 @@ async def test_read_part_numbers(
         async_client: AsyncClient):
     response = await async_client.get("/part_number/read_many")
     response.raise_for_status()
-    assert type(response.json().get("data")) == list
+    assert type(response.json()) == list
 
 @pytest.mark.asyncio
 async def test_update_part_number(
         app: FastAPI,
         async_client: AsyncClient):
-    part_numbers_response = await async_client.put("/part_number/update")
+    part_numbers_response = await async_client.get("/part_number/read_many")
     part_number = first(part_numbers_response.json())
     response = await async_client.put("/part_number/update", json={
-        "id" : part_number["id"],
-        "part_number" : "SO_KO_1656"
+        "id": part_number["id"],
+        "part_number": "SO_KO_1656"
     })
     response.raise_for_status()
+
+
 
 @pytest.mark.asyncio
 async def test_delete_part_number(
         app: FastAPI,
         async_client: AsyncClient):
-    part_numbers_response = await async_client.put("/part_number/delete")
-    part_number = first(part_numbers_response.json())
+    part_numbers_response = await async_client.get("/part_number/read_many")
+    part_number = last(part_numbers_response.json())
 
     response = await async_client.delete("/part_number/delete", params={"id": part_number["id"]})
     response.raise_for_status()

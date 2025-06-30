@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from apps.spareparts.data_layer.models.sparepart import FactoryParts
+from apps.spareparts.data_layer.models.sparepart import FactoryPart
 
 
 class FactoryPartCreate(BaseModel):
@@ -9,8 +9,8 @@ class FactoryPartCreate(BaseModel):
     description : str | None = None
 
 
-    def to_factory_part(self) -> FactoryParts:
-        return FactoryParts(
+    def to_factory_part(self) -> FactoryPart:
+        return FactoryPart(
             name=self.name,
             parentId=self.parentId,
             description=self.description,

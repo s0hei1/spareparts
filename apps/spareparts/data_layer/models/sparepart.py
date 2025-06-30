@@ -76,7 +76,7 @@ class FactoryPart(SQLAlchemyModel):
     parentId = Column(Integer, ForeignKey('factory_part.id'), nullable=True)
     description = Column(String(1024), nullable=True)
 
-    parent = relationship('FactoryParts')
+    parent = relationship('FactoryPart')
 
 class MachineCatalog(SQLAlchemyModel):
     __tablename__ = 'machine_catalogs'
@@ -129,3 +129,13 @@ class Tag(SQLAlchemyModel):
     __tablename__ = 'tag'
     id = Column(Integer, primary_key=True)
     title = Column(String(255), nullable=False)
+
+class PartNumber(SQLAlchemyModel):
+    __tablename__ = 'part_number'
+    id = Column(Integer, primary_key=True)
+    part_number = Column(String(255), nullable=False)
+    spare_part_id = Column(Integer, ForeignKey('spare_part.id'), nullable=False)
+    company_id = Column(Integer, ForeignKey('company.id'), nullable=False)
+
+    spare_part = relationship("SparePart")
+    company = relationship("Company")

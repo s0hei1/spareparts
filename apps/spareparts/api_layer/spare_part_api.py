@@ -9,7 +9,7 @@ from apps.spareparts.di.bll_dependencies import BLL_DI
 
 from apps.spareparts.di.repository_dependencies import RepositoryDI
 
-spare_part_router = APIRouter(prefix="/sparepart", tags=["Spare Parts"])
+spare_part_router = APIRouter(prefix="/spare-part", tags=["Spare Parts"])
 
 
 
@@ -20,7 +20,7 @@ async def create_spare_part(
     sparePartsBLL : SparePartBLL = Depends(BLL_DI.spare_part_bll)
 ):
 
-    code = await sparePartsBLL.generate_code(spare_part.sparepart_type_id)
+    code = await sparePartsBLL.generate_code(spare_part.spare_part_type_id)
 
     obj = spare_part.to_sparepart(code)
 

@@ -11,7 +11,7 @@ SparePartCreateProperty = ForwardRef('SparePartCreateProperty')
 class SparePartCreate(BaseModel):
     name: str
     alias_name: str | None = None
-    sparepart_type_id: int
+    spare_part_type_id: int
     part_numbers: list[SparePartCreatePartNumbers] | None = None
     machines_using_parts: list[int] | None = None
     location: SparePartCreateLocation | None = None
@@ -21,7 +21,7 @@ class SparePartCreate(BaseModel):
         return SparePart(
             name=self.name,
             alias_name=self.alias_name,
-            spare_part_type_id=self.sparepart_type_id,
+            spare_part_type_id=self.spare_part_type_id,
             code=code
         )
 

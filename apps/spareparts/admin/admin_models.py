@@ -5,7 +5,7 @@ from apps.spareparts.data_layer.models.sparepart import (
     SparePartType,
     SparePartTypeProperties,
     SparePart,
-    FactoryParts,
+    FactoryPart,
     MachineCatalog,
     UnitOfMeasureGroup,
     UnitOfMeasure,
@@ -31,12 +31,12 @@ class SparePartAdmin(ModelView, model=SparePart):
     column_list = [SparePart.id, SparePart.name, SparePart.code, SparePart.alias_name, SparePart.spare_part_type_id, SparePart.is_active]
 
 
-class FactoryPartsAdmin(ModelView, model=FactoryParts):
-    column_list = [FactoryParts.id, FactoryParts.name, FactoryParts.parentId, FactoryParts.description]
+class FactoryPartAdmin(ModelView, model=FactoryPart):
+    column_list = [FactoryPart.id, FactoryPart.name, FactoryPart.parentId, FactoryPart.description]
 
 
 class MachineCatalogAdmin(ModelView, model=MachineCatalog):
-    column_list = [MachineCatalog.id, MachineCatalog.machine_name, MachineCatalog.model_name, MachineCatalog.factory_parts_id, MachineCatalog.is_tool]
+    column_list = [MachineCatalog.id, MachineCatalog.machine_name, MachineCatalog.model_name, MachineCatalog.factory_part_id, MachineCatalog.is_tool]
 
 
 class UnitOfMeasureGroupAdmin(ModelView, model=UnitOfMeasureGroup):

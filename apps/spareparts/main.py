@@ -5,6 +5,7 @@ from apps.spareparts.api_layer.comapny_api import company_router
 from apps.spareparts.api_layer.facory_parts_api import factory_parts_router
 from apps.spareparts.api_layer.location_api import location_router
 from apps.spareparts.api_layer.machine_catalog_api import machine_catalog_router
+from apps.spareparts.api_layer.part_number_api import part_number_router
 from apps.spareparts.api_layer.property_api import property_router
 from apps.spareparts.api_layer.spare_part_api import spare_part_router
 from apps.spareparts.api_layer.sparepart_type_api import sparepart_type_router
@@ -25,6 +26,7 @@ app.include_router(tag_router)
 app.include_router(sparepart_type_router)
 app.include_router(property_router)
 app.include_router(spare_part_router)
+app.include_router(part_number_router)
 
 config_admin(app)
 
