@@ -47,6 +47,17 @@ class SparePart(SQLAlchemyModel):
 
     spare_part_type = relationship("SparePartType", back_populates="spare_parts")
 
+# class WhoCanUseSparePart(SparePart):
+#     __tablename__ = 'who_can_use_spare_part'
+#
+#     id = Column(Integer, primary_key=True)
+#     spare_part_id = Column(Integer, ForeignKey('spare_part.id'), nullable=False)
+#     machine_catalog_id = Column(Integer, ForeignKey('machine_catalog.id'), nullable=False)
+#     usage_ration = Column(Float, nullable=True)
+#
+#     spare_part = relationship("SparePart", back_populates="who_can_use_spare_part")
+#     machine_catalog = relationship("MachineCatalog")
+
 class SparePartPropertyValue(SQLAlchemyModel):
     __tablename__ = 'spare_part_property_value'
 
@@ -57,7 +68,6 @@ class SparePartPropertyValue(SQLAlchemyModel):
 
     spare_part_type_property = relationship("SparePartTypeProperties")
     spare_part = relationship("SparePart")
-
 
 class FactoryPart(SQLAlchemyModel):
     __tablename__ = 'factory_part'
@@ -110,9 +120,9 @@ class Company(SQLAlchemyModel):
 class Location(SQLAlchemyModel):
     __tablename__ = 'location'
     id = Column(Integer, primary_key=True)
-    x = Column(String(15))
-    y = Column(String(15))
-    z = Column(String(15))
+    shelf = Column(String(8))
+    column = Column(Integer)
+    row = Column(Integer)
     floor = Column(Integer, nullable=True)
 
 class Tag(SQLAlchemyModel):

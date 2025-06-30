@@ -2,7 +2,9 @@ playground/
 
 .venv/
 
+__pycache__
 */__pycache__
+__pycache__/*
 
 apps/spareparts/.env
 
