@@ -47,16 +47,20 @@ class SparePart(SQLAlchemyModel):
 
     spare_part_type = relationship("SparePartType", back_populates="spare_parts")
 
-# class WhoCanUseSparePart(SparePart):
-#     __tablename__ = 'who_can_use_spare_part'
-#
-#     id = Column(Integer, primary_key=True)
-#     spare_part_id = Column(Integer, ForeignKey('spare_part.id'), nullable=False)
-#     machine_catalog_id = Column(Integer, ForeignKey('machine_catalog.id'), nullable=False)
-#     usage_ration = Column(Float, nullable=True)
-#
-#     spare_part = relationship("SparePart", back_populates="who_can_use_spare_part")
-#     machine_catalog = relationship("MachineCatalog")
+class MachineCatalogSparePart(SparePart):
+    __tablename__ = 'machine_catalog_spare_part'
+
+    id = Column(Integer, primary_key=True)
+    spare_part_id = Column(Integer, ForeignKey('spare_part.id'), nullable=False)
+    machine_catalog_id = Column(Integer, ForeignKey('machine_catalog.id'), nullable=False)
+    usage_ration = Column(Float, nullable=True)
+
+    spare_part = relationship("SparePart", back_populates="machine_catalogs")
+    machine_catalog = relationship("MachineCatalog", back_populates="spare_parts")
+
+    # __table_args__ = (
+    #     UniqueConstraint("name", "code", name="uq_spare_part_name_code"),
+    # )
 
 class SparePartPropertyValue(SQLAlchemyModel):
     __tablename__ = 'spare_part_property_value'
