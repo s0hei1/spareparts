@@ -52,7 +52,7 @@ class CompanyAdmin(ModelView, model=Company):
 
 
 class LocationAdmin(ModelView, model=Location):
-    column_list = [Location.id, Location.x, Location.y, Location.z, Location.floor]
+    column_list = [Location.id, Location.shelf, Location.column, Location.row, Location.floor]
 
 
 class TagAdmin(ModelView, model=Tag):
