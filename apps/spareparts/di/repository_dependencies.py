@@ -7,6 +7,7 @@ from apps.spareparts.data_layer.repository.company_repository import CompanyRepo
 from apps.spareparts.data_layer.repository.factory_parts_repository import FactoryPartsRepository
 from apps.spareparts.data_layer.repository.location_repository import LocationRepository
 from apps.spareparts.data_layer.repository.machine_catalog_repository import MachineCatalogRepository
+from apps.spareparts.data_layer.repository.machine_catalog_spare_part import MachineCatalogSparePartRepository
 from apps.spareparts.data_layer.repository.part_number_repository import PartNumberRepository
 from apps.spareparts.data_layer.repository.property_repository import PropertyRepository
 from apps.spareparts.data_layer.repository.spare_part_property_value import SparePartPropertyValueRepository
@@ -69,5 +70,7 @@ class RepositoryDI():
     def part_number_repository(cls, db: AsyncSession = Depends(get_db)) -> PartNumberRepository:
         return PartNumberRepository(db=db)
 
-
+    @classmethod
+    def machine_catalog_spare_part_repository(cls, db: AsyncSession = Depends(get_db)) -> MachineCatalogSparePartRepository:
+        return MachineCatalogSparePartRepository(db=db)
 

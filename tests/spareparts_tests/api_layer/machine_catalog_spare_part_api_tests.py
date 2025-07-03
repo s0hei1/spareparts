@@ -26,7 +26,7 @@ async def test_create_machine_catalog_spare_part(
         async_client: AsyncClient,
         fake_machine_catalog_spare_part: dict
 ):
-    response = await async_client.post("/machine_catalog_spare_part/create", json=fake_machine_catalog_spare_part)
+    response = await async_client.post("/machine-catalog-spare-part/create", json=fake_machine_catalog_spare_part)
     response.raise_for_status()
     result = response.json()
 

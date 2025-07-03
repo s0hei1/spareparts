@@ -46,6 +46,7 @@ class SparePart(SQLAlchemyModel):
     is_active = Column(Boolean, default=False)
 
     spare_part_type = relationship("SparePartType", back_populates="spare_parts")
+    machine_catalogs = relationship('MachineCatalogSparePart')
 
 class MachineCatalogSparePart(SparePart):
     __tablename__ = 'machine_catalog_spare_part'
@@ -56,7 +57,7 @@ class MachineCatalogSparePart(SparePart):
     usage_ration = Column(Float, nullable=True)
 
     spare_part = relationship("SparePart", back_populates="machine_catalogs")
-    machine_catalog = relationship("MachineCatalog", back_populates="spare_parts")
+    machine_catalog = relationship("MachineCatalog", back_populates="spare_parts",)
 
     # __table_args__ = (
     #     UniqueConstraint("name", "code", name="uq_spare_part_name_code"),
@@ -83,7 +84,7 @@ class FactoryPart(SQLAlchemyModel):
     parent = relationship('FactoryPart')
 
 class MachineCatalog(SQLAlchemyModel):
-    __tablename__ = 'machine_catalogs'
+    __tablename__ = 'machine_catalog'
     id = Column(Integer, primary_key=True)
     machine_name = Column(String(256), nullable= False)
     location_in_factory  = Column(String(256), nullable= True)
@@ -93,6 +94,7 @@ class MachineCatalog(SQLAlchemyModel):
     is_tool = Column(Boolean, nullable= False, default= False)
 
     factory_part = relationship('FactoryPart')
+    spare_parts = relationship("MachineCatalogSparePart")
 
 class UnitOfMeasureGroup(SQLAlchemyModel):
     __tablename__ = 'unit_of_measure_group'
