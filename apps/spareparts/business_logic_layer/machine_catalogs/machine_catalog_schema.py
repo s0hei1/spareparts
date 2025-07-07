@@ -15,7 +15,7 @@ class MachineCatalogCreate(BaseModel):
         return MachineCatalog(
             machine_name = self.machine_name,
             location_in_factory = self.location_in_factory,
-            factory_parts_id = self.factory_part_id,
+            factory_part_id = self.factory_part_id,
             description = self.description,
             model_name = self.model_name,
             is_tool = self.is_tool,
@@ -29,6 +29,9 @@ class MachineCatalogRead(BaseModel):
     description : str | None
     model_name : str
     is_tool : bool
+
+    class Config:
+        from_attributes = True
 
 class MachineCatalogUpdate(BaseModel):
     id : int

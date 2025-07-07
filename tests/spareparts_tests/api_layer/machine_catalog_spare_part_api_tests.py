@@ -26,7 +26,7 @@ async def test_create_machine_catalog_spare_part(
         async_client: AsyncClient,
         fake_machine_catalog_spare_part: dict
 ):
-    response = await async_client.post("/machine_catalog_spare_part/create", json=fake_machine_catalog_spare_part)
+    response = await async_client.post("/machine-catalog-spare-part/create", json=fake_machine_catalog_spare_part)
     response.raise_for_status()
     result = response.json()
 
@@ -43,13 +43,13 @@ async def test_read_one_machine_catalog_spare_part(
         fake_machine_catalog_spare_part: dict
 ):
     # First create
-    create_response = await async_client.post("/machine_catalog_spare_part/create",
+    create_response = await async_client.post("/machine-catalog-spare-part/create",
                                               json=fake_machine_catalog_spare_part)
     create_response.raise_for_status()
     part_id = create_response.json()["id"]
 
     # Then read
-    read_response = await async_client.get("/machine_catalog_spare_part/read_one", params={"id": part_id})
+    read_response = await async_client.get("/machine-catalog-spare-part/read_one", params={"id": part_id})
     read_response.raise_for_status()
     result = read_response.json()
 
@@ -63,7 +63,7 @@ async def test_read_many_machine_catalog_spare_parts(
     async_client: AsyncClient,
 ):
 
-    read_response = await async_client.get("/machine_catalog_spare_part/read_many")
+    read_response = await async_client.get("/machine-catalog-spare-part/read_many")
     read_response.raise_for_status()
 
     parts = read_response.json()
@@ -77,7 +77,7 @@ async def test_update_machine_catalog_spare_part(
         async_client: AsyncClient,
         fake_machine_catalog_spare_part: dict
 ):
-    create_response = await async_client.post("/machine_catalog_spare_part/create",
+    create_response = await async_client.post("/machine-catalog-spare-part/create",
                                               json=fake_machine_catalog_spare_part)
     create_response.raise_for_status()
     part = create_response.json()
@@ -87,7 +87,7 @@ async def test_update_machine_catalog_spare_part(
         "usage_ration": 200  # New value
     }
 
-    update_response = await async_client.put("/machine_catalog_spare_part/update", json=update_payload)
+    update_response = await async_client.put("/machine-catalog-spare-part/update", json=update_payload)
     update_response.raise_for_status()
     updated = update_response.json()
 
@@ -101,12 +101,12 @@ async def test_delete_machine_catalog_spare_part(
         async_client: AsyncClient,
         fake_machine_catalog_spare_part: dict
 ):
-    create_response = await async_client.post("/machine_catalog_spare_part/create",
+    create_response = await async_client.post("/machine-catalog-spare-part/create",
                                               json=fake_machine_catalog_spare_part)
     create_response.raise_for_status()
     part_id = create_response.json()["id"]
 
-    delete_response = await async_client.delete("/machine_catalog_spare_part/delete", params={"id": part_id})
+    delete_response = await async_client.delete("/machine-catalog-spare-part/delete", params={"id": part_id})
     delete_response.raise_for_status()
     result = delete_response.json()
 

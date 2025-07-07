@@ -46,17 +46,22 @@ class SparePart(SQLAlchemyModel):
     is_active = Column(Boolean, default=False)
 
     spare_part_type = relationship("SparePartType", back_populates="spare_parts")
+    machine_catalogs = relationship('MachineCatalogSparePart')
 
-# class WhoCanUseSparePart(SparePart):
-#     __tablename__ = 'who_can_use_spare_part'
-#
-#     id = Column(Integer, primary_key=True)
-#     spare_part_id = Column(Integer, ForeignKey('spare_part.id'), nullable=False)
-#     machine_catalog_id = Column(Integer, ForeignKey('machine_catalog.id'), nullable=False)
-#     usage_ration = Column(Float, nullable=True)
-#
-#     spare_part = relationship("SparePart", back_populates="who_can_use_spare_part")
-#     machine_catalog = relationship("MachineCatalog")
+class MachineCatalogSparePart(SQLAlchemyModel):
+    __tablename__ = 'machine_catalog_spare_part'
+
+    id = Column(Integer, primary_key=True)
+    spare_part_id = Column(Integer, ForeignKey('spare_part.id'), nullable=False)
+    machine_catalog_id = Column(Integer, ForeignKey('machine_catalog.id'), nullable=False)
+    usage_ration = Column(Float, nullable=True)
+
+    spare_part = relationship("SparePart", back_populates="machine_catalogs")
+    machine_catalog = relationship("MachineCatalog", back_populates="spare_parts",)
+
+    # __table_args__ = (
+    #     UniqueConstraint("name", "code", name="uq_spare_part_name_code"),
+    # )
 
 class SparePartPropertyValue(SQLAlchemyModel):
     __tablename__ = 'spare_part_property_value'
@@ -79,7 +84,7 @@ class FactoryPart(SQLAlchemyModel):
     parent = relationship('FactoryPart')
 
 class MachineCatalog(SQLAlchemyModel):
-    __tablename__ = 'machine_catalogs'
+    __tablename__ = 'machine_catalog'
     id = Column(Integer, primary_key=True)
     machine_name = Column(String(256), nullable= False)
     location_in_factory  = Column(String(256), nullable= True)
@@ -89,6 +94,7 @@ class MachineCatalog(SQLAlchemyModel):
     is_tool = Column(Boolean, nullable= False, default= False)
 
     factory_part = relationship('FactoryPart')
+    spare_parts = relationship("MachineCatalogSparePart")
 
 class UnitOfMeasureGroup(SQLAlchemyModel):
     __tablename__ = 'unit_of_measure_group'

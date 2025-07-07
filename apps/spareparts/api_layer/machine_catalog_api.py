@@ -7,11 +7,11 @@ from apps.spareparts.data_layer.repository import machine_catalog_repository
 from apps.spareparts.data_layer.repository.machine_catalog_repository import MachineCatalogRepository
 from apps.spareparts.di.repository_dependencies import RepositoryDI
 
-machine_catalog_router = APIRouter(prefix='/machine_catalogs', tags=['Machine Catalogs'])
+machine_catalog_router = APIRouter(prefix='/machine-catalog', tags=['Machine Catalogs'])
 
 
 
-@machine_catalog_router.post('/add_machine_catalog', response_model=MachineCatalogRead)
+@machine_catalog_router.post('/create', response_model=MachineCatalogRead)
 async def add_machine_catalog(
         machine_catalog_create : MachineCatalogCreate,
         machine_catalog_repository : MachineCatalogRepository = Depends(RepositoryDI.machine_catalog_repository),
