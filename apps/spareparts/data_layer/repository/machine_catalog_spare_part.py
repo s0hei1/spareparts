@@ -21,7 +21,7 @@ class MachineCatalogSparePartRepository:
             raise NoResultFound(f"Machine catalog with id: {id} does not exist")
         return obj
 
-    async def read_all(self) -> Sequence[MachineCatalogSparePart]:
+    async def read_many(self) -> Sequence[MachineCatalogSparePart]:
         q = select(MachineCatalogSparePart)
         query_result = await self.db.execute(q)
         objs = query_result.scalars().all()
@@ -59,7 +59,6 @@ class MachineCatalogSparePartRepository:
         obj = await self.read_one(id)
         await self.db.delete(obj)
         await self.db.commit()
-        await self.db.refresh(obj)
 
         return obj
 

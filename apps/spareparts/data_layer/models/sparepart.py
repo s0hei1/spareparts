@@ -48,7 +48,7 @@ class SparePart(SQLAlchemyModel):
     spare_part_type = relationship("SparePartType", back_populates="spare_parts")
     machine_catalogs = relationship('MachineCatalogSparePart')
 
-class MachineCatalogSparePart(SparePart):
+class MachineCatalogSparePart(SQLAlchemyModel):
     __tablename__ = 'machine_catalog_spare_part'
 
     id = Column(Integer, primary_key=True)

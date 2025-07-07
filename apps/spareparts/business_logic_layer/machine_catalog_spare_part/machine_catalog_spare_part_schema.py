@@ -33,6 +33,6 @@ class MachineCatalogSparePartUpdate(BaseModel):
 
 class MachineCatalogSparePartDelete(BaseModel):
     id : int
-    message : str = "Delete machine catalog was successful"
+    message : str = "MachineCatalogSparePart deleted successfully"
     class Config:
         from_attributes = True
