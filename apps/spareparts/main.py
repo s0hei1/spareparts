@@ -14,6 +14,7 @@ from apps.spareparts.api_layer.tag_api import tag_router
 from apps.spareparts.api_layer.uint_of_measue_api import uom_router
 from sqladmin import Admin
 
+from apps.spareparts.api_layer.user_api import user_router
 from apps.spareparts.data_layer.core.spare_parts_db import get_db, get_engine
 
 app = FastAPI()
@@ -29,6 +30,7 @@ app.include_router(property_router)
 app.include_router(spare_part_router)
 app.include_router(part_number_router)
 app.include_router(machine_catalog_spare_part_router)
+app.include_router(user_router)
 
 config_admin(app)
 
