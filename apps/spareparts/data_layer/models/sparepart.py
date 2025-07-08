@@ -1,9 +1,12 @@
+from datetime import datetime
 
-from sqlalchemy import Column, Integer, String, Enum, ForeignKey, Float,Boolean
+from sqlalchemy import Column, Integer, String, Enum, ForeignKey, Float, Boolean,Date
 from sqlalchemy.orm import relationship
 
 from apps.spareparts.data_layer.enums.property_value_type import PropertyValueType
 from sqlalchemy.ext.declarative import declarative_base
+
+from apps.spareparts.data_layer.enums.user_type import UserType
 
 SQLAlchemyModel = declarative_base()
 
@@ -145,3 +148,21 @@ class PartNumber(SQLAlchemyModel):
 
     spare_part = relationship("SparePart")
     company = relationship("Company")
+
+class User(SQLAlchemyModel):
+    __tablename__ = 'user'
+    id = Column(Integer, primary_key=True)
+    user_name = Column(String(255), nullable=False, unique=True)
+    password = Column(String(255), nullable=False)
+    user_type = Column(Enum(UserType), nullable=False)
+    is_active = Column(Boolean, nullable=False, default=True)
+    personal_id = Column(Integer, ForeignKey('personal.id'), nullable=True)
+
+    personal = relationship("Personal", backref="user")
+
+class Personal(SQLAlchemyModel):
+    __tablename__ = 'personal'
+    id = Column(Integer, primary_key=True)
+    first_name = Column(String(255), nullable=False)
+    last_name = Column(String(255), nullable=False)
+

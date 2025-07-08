@@ -16,10 +16,10 @@ from apps.spareparts.data_layer.repository.spare_part_type_repository import Spa
 from apps.spareparts.data_layer.repository.tag_repository import TagRepository
 from apps.spareparts.data_layer.repository.unit_of_measure_group_repository import UnitOfMeasureGroupRepository
 from apps.spareparts.data_layer.repository.unit_of_measure_repository import UnitOfMeasureRepository
+from apps.spareparts.data_layer.repository.user_repository import UserRepository
+
 
 class RepositoryDI():
-
-
 
     @classmethod
     def unit_of_measure_repository(cls, db: AsyncSession = Depends(get_db),) -> UnitOfMeasureRepository:
@@ -73,4 +73,8 @@ class RepositoryDI():
     @classmethod
     def machine_catalog_spare_part_repository(cls, db: AsyncSession = Depends(get_db)) -> MachineCatalogSparePartRepository:
         return MachineCatalogSparePartRepository(db=db)
+
+    @classmethod
+    def user_repository(cls, db: AsyncSession = Depends(get_db)) -> UserRepository:
+        return UserRepository(db=db)
 

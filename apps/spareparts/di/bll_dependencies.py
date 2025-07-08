@@ -1,5 +1,6 @@
 from fastapi.params import Depends
 
+from apps.spareparts.business_logic_layer.auth.auth_bll import AuthBLL
 from apps.spareparts.business_logic_layer.company.company_bll import CompanyBLL
 from apps.spareparts.business_logic_layer.spare_part.spare_part_bll import SparePartBLL
 from apps.spareparts.business_logic_layer.uom.unit_of_measure_bll import UnitOfMeasureBLL
@@ -13,10 +14,7 @@ from apps.spareparts.di.repository_dependencies import RepositoryDI
 class BLL_DI():
 
     @classmethod
-    def unit_of_measure_bll(self,
-                        uomRepo : UnitOfMeasureRepository = Depends(RepositoryDI.unit_of_measure_repository),
-                        uomGroupRepo : UnitOfMeasureGroupRepository = Depends(RepositoryDI.unit_of_measure_group_repository),
-                    ) -> UnitOfMeasureBLL:
+    def unit_of_measure_bll(cls) -> UnitOfMeasureBLL:
         return UnitOfMeasureBLL()
 
     @classmethod
@@ -26,3 +24,8 @@ class BLL_DI():
     @classmethod
     def company_bll(cls):
         return CompanyBLL()
+
+    @classmethod
+    def auth_bll(cls,db: ReadOnlyAsyncSession = Depends(get_read_only_db)):
+        return AuthBLL(db = db)
+
