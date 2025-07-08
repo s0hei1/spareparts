@@ -166,3 +166,12 @@ class Personal(SQLAlchemyModel):
     first_name = Column(String(255), nullable=False)
     last_name = Column(String(255), nullable=False)
 
+class TrustDocument(SQLAlchemyModel):
+    __tablename__ = 'trust_document'
+    id = Column(Integer, primary_key=True)
+    delivery_date = Column(Date, nullable=False, default= datetime.today())
+    return_date = Column(Date, nullable=False)
+    description = Column(String(1024), nullable=False)
+    personal_name = Column(String(255), nullable=False)
+
+
