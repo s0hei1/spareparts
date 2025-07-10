@@ -4,6 +4,14 @@ from fastapi import FastAPI
 from global_fixtures import app,async_client
 from more_itertools import first
 
+@pytest.fixture
+def fake_trust_document_json() -> dict:
+    return {
+    "delivery_date" : "2025-01-01",
+    "return_date" : "2025-01-02",
+    "description" : "Something",
+    "personal_name" : "Soheil H",
+    }
 
 @pytest.mark.asyncio
 async def test_create_trust_document(
@@ -11,7 +19,7 @@ async def test_create_trust_document(
     async_client: AsyncClient,
     fake_trust_document_json: dict
 ):
-    response = await async_client.post("/trust_document/create", json=fake_trust_document_json)
+    response = await async_client.post("/trust-document/create", json=fake_trust_document_json)
 
     assert response.status_code == 200
     data = response.json()
@@ -25,12 +33,11 @@ async def test_read_trust_document(
     async_client: AsyncClient,
     fake_trust_document_json: dict
 ):
-    # First create a document
-    create_response = await async_client.post("/trust_document/create", json=fake_trust_document_json)
+
+    create_response = await async_client.post("/trust-document/create", json=fake_trust_document_json)
     doc_id = create_response.json()["id"]
 
-    # Now read it
-    response = await async_client.get("/trust_document/read_one", params={"id": doc_id})
+    response = await async_client.get("/trust-document/read_one", params={"id": doc_id})
     assert response.status_code == 200
     assert response.json()["id"] == doc_id
 
@@ -40,8 +47,8 @@ async def test_read_many_trust_documents(
     app: FastAPI,
     async_client: AsyncClient
 ):
-    response = await async_client.get("/trust_document/read_many/")
-    assert response.status_code == 200
+    response = await async_client.get("/trust-document/read_many")
+    response.raise_for_status()
     assert isinstance(response.json(), list)
 
 
@@ -52,7 +59,7 @@ async def test_update_trust_document(
     fake_trust_document_json: dict
 ):
     # Create a document
-    create_response = await async_client.post("/trust_document/create", json=fake_trust_document_json)
+    create_response = await async_client.post("/trust-document/create", json=fake_trust_document_json)
     doc = create_response.json()
     doc_id = doc["id"]
 
@@ -66,7 +73,7 @@ async def test_update_trust_document(
         "personal_name": doc["personal_name"]
     }
 
-    update_response = await async_client.put("/trust_document/update", json=update_payload)
+    update_response = await async_client.put("/trust-document/update", json=update_payload)
     assert update_response.status_code == 200
     assert update_response.json()["description"] == updated_description
 
@@ -78,9 +85,9 @@ async def test_delete_trust_document(
     fake_trust_document_json: dict
 ):
     # Create a document
-    create_response = await async_client.post("/trust_document/create", json=fake_trust_document_json)
+    create_response = await async_client.post("/trust-document/create", json=fake_trust_document_json)
     doc_id = create_response.json()["id"]
 
     # Delete it
-    delete_response = await async_client.delete("/trust_document/delete", params={"id": doc_id})
+    delete_response = await async_client.delete("/trust-document/delete", params={"id": doc_id})
     assert delete_response.status_code == 200

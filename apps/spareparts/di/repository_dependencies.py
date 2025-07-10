@@ -14,6 +14,7 @@ from apps.spareparts.data_layer.repository.spare_part_property_value import Spar
 from apps.spareparts.data_layer.repository.spare_part_repository import SparePartRepository
 from apps.spareparts.data_layer.repository.spare_part_type_repository import SparePartTypeRepository
 from apps.spareparts.data_layer.repository.tag_repository import TagRepository
+from apps.spareparts.data_layer.repository.trust_document_repository import TrustDocumentRepository
 from apps.spareparts.data_layer.repository.unit_of_measure_group_repository import UnitOfMeasureGroupRepository
 from apps.spareparts.data_layer.repository.unit_of_measure_repository import UnitOfMeasureRepository
 from apps.spareparts.data_layer.repository.user_repository import UserRepository
@@ -77,4 +78,8 @@ class RepositoryDI():
     @classmethod
     def user_repository(cls, db: AsyncSession = Depends(get_db)) -> UserRepository:
         return UserRepository(db=db)
+
+    @classmethod
+    def trust_document_repository(cls, db: AsyncSession = Depends(get_db)) -> TrustDocumentRepository:
+        return TrustDocumentRepository(db=db)
 
