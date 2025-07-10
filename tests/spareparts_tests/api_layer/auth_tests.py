@@ -3,14 +3,18 @@ from httpx import AsyncClient
 from fastapi import FastAPI
 from global_fixtures import app,async_client
 from more_itertools import first
-
+from random import randint
 
 @pytest.fixture
-def fake_login_json() -> dict:
+def fake_user_json() -> dict:
+    any_number = randint(1, 100)
+
     return {
-        'user_name' : 'maryam',
-        "password": "test_password",
+        "user_name" : f"maryamm{any_number}",
+        "password" : "maryam1377",
+        "user_type" : 1,
     }
+
 
 @pytest.fixture
 def fake_wrong_login_json() -> dict:
@@ -37,8 +41,14 @@ def fake_wrong_change_password_json() -> dict:
 async def test_login_success(
         app : FastAPI,
         async_client : AsyncClient,
+        fake_user_json : dict,
 ):
-    response = await async_client.post(url= '/user/login', json=fake_login_json)
+    userResponse = await async_client.post(url= '/user/create', json=fake_user_json)
+
+    response = await async_client.post(url= '/user/login', json={
+        "user_name" : fake_user_json["user_name"],
+        "password" : fake_user_json["password"],
+    })
     response.raise_for_status()
 
     assert "token" in response.json()
@@ -52,3 +62,4 @@ async def test_wrong_login(
     response = await async_client.post(url= '/user/login', json=fake_wrong_login_json)
     assert response.status_code == 401
     assert response.json() == {"message": "User name or password is incorrect"}
+
