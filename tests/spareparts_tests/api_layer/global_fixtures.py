@@ -3,6 +3,7 @@ import pytest_asyncio
 from fastapi import FastAPI
 from httpx import AsyncClient, ASGITransport
 
+from apps.spareparts.api_layer.auth_api import auth_router
 from apps.spareparts.api_layer.comapny_api import company_router
 from apps.spareparts.api_layer.machine_catalog_api import machine_catalog_router
 from apps.spareparts.api_layer.machine_catalog_spare_part_api import machine_catalog_spare_part_router
@@ -28,6 +29,7 @@ def app():
     app.include_router(machine_catalog_spare_part_router)
     app.include_router(user_router)
     app.include_router(trust_document_router)
+    app.include_router(auth_router)
     return app
 
 @pytest_asyncio.fixture
