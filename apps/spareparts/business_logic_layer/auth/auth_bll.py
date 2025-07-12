@@ -2,16 +2,16 @@ from sqlalchemy import select
 from apps.spareparts.business_logic_layer.exceptions import ValidationException
 from apps.spareparts.data_layer.core.read_only_async_session import ReadOnlyAsyncSession
 from hashlib import sha256
-
 import re
-
 from apps.spareparts.data_layer.models.sparepart import User
+from apps.spareparts.security.jwt_helpers import JWT
 
 
 class AuthBLL:
 
-    def __init__(self, db: ReadOnlyAsyncSession):
+    def __init__(self, db: ReadOnlyAsyncSession, jwt : JWT) -> None:
         self.db = db
+        self._jwt = jwt
 
     async def hash_password(self, password: str) -> str:
         password = sha256(password.encode()).hexdigest()
@@ -51,3 +51,22 @@ class AuthBLL:
             raise ValidationException(f"Username or password is invalid")
 
         return user
+
+    async def current_user(self, token : str) -> User:
+
+        payload = self._jwt.decode_access_token(token)
+        user_name = payload["sub"]
+        q = select(User).where(User.user_name == user_name)
+        query_result = await self.db.execute(q)
+        user = query_result.scalar_one_or_none()
+
+        if user is None:
+            raise ValidationException(f"User name is invalid")
+
+        return user
+
+
+
+    async def generate_token(self, user : User) -> str:
+        token = self._jwt.create_access_token(data = {"sub": user.user_name})
+        return token

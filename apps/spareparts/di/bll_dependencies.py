@@ -8,7 +8,9 @@ from apps.spareparts.data_layer.core.read_only_async_session import ReadOnlyAsyn
 from apps.spareparts.data_layer.core.spare_parts_db import get_read_only_db
 from apps.spareparts.data_layer.repository.unit_of_measure_group_repository import UnitOfMeasureGroupRepository
 from apps.spareparts.data_layer.repository.unit_of_measure_repository import UnitOfMeasureRepository
+from apps.spareparts.di.general_dependencies import GeneralDI
 from apps.spareparts.di.repository_dependencies import RepositoryDI
+from apps.spareparts.security.jwt_helpers import JWT
 
 
 class BLL_DI():
@@ -26,6 +28,6 @@ class BLL_DI():
         return CompanyBLL()
 
     @classmethod
-    def auth_bll(cls,db: ReadOnlyAsyncSession = Depends(get_read_only_db)):
-        return AuthBLL(db = db)
+    def auth_bll(cls,db: ReadOnlyAsyncSession = Depends(get_read_only_db), jwt : JWT = Depends(GeneralDI.jwt)):
+        return AuthBLL(db = db,jwt = jwt)
 

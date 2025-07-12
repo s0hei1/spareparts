@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from apps.spareparts.admin.admin import config_admin
+from apps.spareparts.api_layer.auth_api import auth_router
 from apps.spareparts.api_layer.comapny_api import company_router
 from apps.spareparts.api_layer.facory_parts_api import factory_parts_router
 from apps.spareparts.api_layer.location_api import location_router
@@ -31,6 +32,7 @@ app.include_router(spare_part_router)
 app.include_router(part_number_router)
 app.include_router(machine_catalog_spare_part_router)
 app.include_router(user_router)
+app.include_router(auth_router)
 
 config_admin(app)
 
