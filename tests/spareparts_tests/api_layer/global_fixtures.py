@@ -2,20 +2,18 @@ import pytest
 import pytest_asyncio
 from fastapi import FastAPI
 from httpx import AsyncClient, ASGITransport
-
-from apps.spareparts.api_layer.auth_api import auth_router
-from apps.spareparts.api_layer.comapny_api import company_router
-from apps.spareparts.api_layer.machine_catalog_api import machine_catalog_router
-from apps.spareparts.api_layer.machine_catalog_spare_part_api import machine_catalog_spare_part_router
-from apps.spareparts.api_layer.part_number_api import part_number_router
-from apps.spareparts.api_layer.spare_part_api import spare_part_router
-from apps.spareparts.api_layer.sparepart_type_api import sparepart_type_router
-from apps.spareparts.api_layer.tag_api import tag_router
-from apps.spareparts.api_layer.trust_document_api import trust_document_router
-from apps.spareparts.api_layer.user_api import user_router
+from apps.spareparts.api_layer.api.auth_api import auth_router
+from apps.spareparts.api_layer.api.comapny_api import company_router
+from apps.spareparts.api_layer.api.machine_catalog_api import machine_catalog_router
+from apps.spareparts.api_layer.api.machine_catalog_spare_part_api import machine_catalog_spare_part_router
+from apps.spareparts.api_layer.api.part_number_api import part_number_router
+from apps.spareparts.api_layer.api.spare_part_api import spare_part_router
+from apps.spareparts.api_layer.api.sparepart_type_api import sparepart_type_router
+from apps.spareparts.api_layer.api.tag_api import tag_router
+from apps.spareparts.api_layer.api.trust_document_api import trust_document_router
+from apps.spareparts.api_layer.api.user_api import user_router
+from apps.spareparts.api_layer.middleware.performance_middleware import PerformanceMiddleware
 from apps.spareparts.data_layer.core.spare_parts_db import get_db
-
-
 
 @pytest.fixture
 def app():
@@ -30,6 +28,7 @@ def app():
     app.include_router(user_router)
     app.include_router(trust_document_router)
     app.include_router(auth_router)
+    app.add_middleware(PerformanceMiddleware)
     return app
 
 @pytest_asyncio.fixture
