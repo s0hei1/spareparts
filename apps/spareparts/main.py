@@ -12,10 +12,11 @@ from apps.spareparts.api_layer.api.spare_part_api import spare_part_router
 from apps.spareparts.api_layer.api.sparepart_type_api import sparepart_type_router
 from apps.spareparts.api_layer.api.tag_api import tag_router
 from apps.spareparts.api_layer.api.uint_of_measue_api import uom_router
-from sqladmin import Admin
 from apps.spareparts.api_layer.api.user_api import user_router
+from apps.spareparts.api_layer.exception_handler.bll_exceptions_handler import validation_exception_handler, \
+    business_logic_exception_handler
 from apps.spareparts.api_layer.middleware.performance_middleware import PerformanceMiddleware
-from apps.spareparts.data_layer.core.spare_parts_db import get_db, get_engine
+from apps.spareparts.business_logic_layer.exceptions import BusinessLogicException, ValidationException
 
 app = FastAPI()
 
@@ -36,6 +37,5 @@ app.include_router(auth_router)
 config_admin(app)
 
 app.add_middleware(PerformanceMiddleware)
-
-
-
+app.add_exception_handler(BusinessLogicException, business_logic_exception_handler)
+app.add_exception_handler(ValidationException, validation_exception_handler)
