@@ -19,10 +19,12 @@ class UnitOfMeasureCreate(BaseModel):
 
 class UnitOfMeasureGroupCreate(BaseModel):
     name : str
+    alias_name : str
 
     def to_unit_of_measure_group(self) -> UnitOfMeasureGroup:
         return UnitOfMeasureGroup(
-            name =self.name
+            name =self.name,
+            alias_name=self.alias_name
         )
 
 
