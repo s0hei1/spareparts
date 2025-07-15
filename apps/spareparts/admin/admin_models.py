@@ -16,7 +16,7 @@ from apps.spareparts.data_layer.models.sparepart import (
 
 
 class PropertyAdmin(ModelView, model=Property):
-    column_list = [Property.id, Property.name, Property.value_type, Property.unit_of_measure_id]
+    column_list = [Property.id, Property.name, Property.unit_of_measure_id]
 
 
 class SparePartTypeAdmin(ModelView, model=SparePartType):
@@ -48,7 +48,7 @@ class UnitOfMeasureAdmin(ModelView, model=UnitOfMeasure):
 
 
 class CompanyAdmin(ModelView, model=Company):
-    column_list = [Company.id, Company.name, Company.location, Company.website, Company.contactEmail]
+    column_list = [Company.id, Company.name, Company.location, Company.website, Company.contact_email]
 
 
 class LocationAdmin(ModelView, model=Location):

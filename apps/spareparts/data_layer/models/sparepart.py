@@ -1,20 +1,15 @@
 from datetime import datetime
-
 from sqlalchemy import Column, Integer, String, Enum, ForeignKey, Float, Boolean,Date
 from sqlalchemy.orm import relationship
-
 from apps.spareparts.data_layer.enums.property_value_type import PropertyValueType
-from sqlalchemy.ext.declarative import declarative_base
-
 from apps.spareparts.data_layer.enums.user_type import UserType
-
+from sqlalchemy.ext.declarative import declarative_base
 SQLAlchemyModel = declarative_base()
 
 class Property(SQLAlchemyModel):
     __tablename__ = 'property'
     id = Column(Integer, primary_key=True)
     name = Column(String(255))
-    value_type = Column(Enum(PropertyValueType))
     unit_of_measure_id = Column(Integer, ForeignKey('unit_of_measure.id'), nullable=False)
 
     unit_of_measure = relationship("UnitOfMeasure")
@@ -23,6 +18,7 @@ class SparePartType(SQLAlchemyModel):
     __tablename__ = 'spare_part_type'
     id = Column(Integer, primary_key=True)
     name = Column(String(255))
+    alias_name = Column(String(255))
     symbol = Column(String(4))
 
     properties = relationship("SparePartTypeProperties", back_populates="spare_part_type")
@@ -103,17 +99,19 @@ class UnitOfMeasureGroup(SQLAlchemyModel):
     __tablename__ = 'unit_of_measure_group'
     id = Column(Integer, primary_key=True)
     name = Column(String(64), nullable=False)
+    alias_name = Column(String(64), nullable=True)
 
 class UnitOfMeasure(SQLAlchemyModel):
     __tablename__ = 'unit_of_measure'
     id = Column(Integer, primary_key=True)
     name = Column(String(64), nullable=False)
+    name_alias = Column(String(64), nullable=True)
     group_id = Column(Integer, ForeignKey('unit_of_measure_group.id'), nullable=False)
     unit_in_group = Column(Float(precision=53), nullable=True, doc= """
     For example on Weight Unit of Measures 'Gram' will be '1' and 'Kilogram' will be '1000'
     I hope you will understand :D
     """)
-
+    value_type = Column(Enum(PropertyValueType))
     group = relationship(UnitOfMeasureGroup)
 
 class Company(SQLAlchemyModel):
@@ -123,8 +121,7 @@ class Company(SQLAlchemyModel):
     location = Column(String(255), nullable=False)
     description = Column(String(1024), nullable=False)
     website = Column(String(255), nullable=True)
-    contactEmail = Column(String(255), nullable=True)
-
+    contact_email = Column(String(255), nullable=True)
 
 class Location(SQLAlchemyModel):
     __tablename__ = 'location'
@@ -138,6 +135,7 @@ class Tag(SQLAlchemyModel):
     __tablename__ = 'tag'
     id = Column(Integer, primary_key=True)
     title = Column(String(255), nullable=False)
+    title_alias = Column(String(255), nullable=True)
 
 class PartNumber(SQLAlchemyModel):
     __tablename__ = 'part_number'

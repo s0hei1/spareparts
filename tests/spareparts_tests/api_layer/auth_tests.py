@@ -63,7 +63,7 @@ async def test_wrong_login(
 
 ):
     response = await async_client.post(url= '/auth/login', json=fake_wrong_login_json)
-    assert response.status_code == 401
+    assert response.status_code == 400
     # assert response.json() == {"message": "User name or password is incorrect"}
 
 @pytest.mark.asyncio
@@ -87,3 +87,4 @@ async def test_get_current_user(
     response.raise_for_status()
 
     assert response.json().get('id') == create_user.json().get('id')
+

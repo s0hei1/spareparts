@@ -11,7 +11,7 @@ def fake_create_company_json() -> dict:
         "location": "Germany-Berlin",
         "description": "its a fake company for test APIs",
         "website": "https://Github.com",
-        "contactEmail": "khosroshahisoheil1999@gmail.com"
+        "contact_email": "khosroshahisoheil1999@gmail.com"
     }
 
 
@@ -23,7 +23,7 @@ def fake_company_read_json(fake_create_company_json : dict) -> dict:
         "location": fake_create_company_json["location"],
         "description": fake_create_company_json["description"],
         "website": fake_create_company_json["website"],
-        "contactEmail": fake_create_company_json["contactEmail"],
+        "contact_email": fake_create_company_json["contact_email"],
     }
 
 

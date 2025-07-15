@@ -46,7 +46,7 @@ class CompanyRepository:
                      location: str | None = None,
                      description: str | None = None,
                      website: str | None = None,
-                     contactEmail: str | None = None,
+                     contact_email: str | None = None,
                      ):
         q = await self.db.execute(
             select(Company).where(Company.id == id)
@@ -65,8 +65,8 @@ class CompanyRepository:
             obj.description = description
         if website :
             obj.website = website
-        if contactEmail :
-            obj.contactEmail = contactEmail
+        if contact_email :
+            obj.contact_email = contact_email
 
         await self.db.commit()
         await self.db.refresh(obj)

@@ -1,41 +1,44 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from apps.spareparts.data_layer.models.sparepart import Location
+from typing import Annotated, TypeVar
 
+ShelfField = Annotated[str, Field(min_length=1, max_length=8)]
+ColumnField = Annotated[int, Field(gt=1, lt=100)]
+RowField = Annotated[int, Field(gt=1, lt=10)]
+FloorField = Annotated[int | None, Field(gt=1, lt=10)]
 
 class LocationCreate(BaseModel):
-    x: str
-    y: str
-    z: str
-    floor: int | None = None
+    shelf: ShelfField
+    column: ColumnField
+    row: RowField
+    floor: FloorField | None= None
 
     def to_location(self) -> Location:
         return Location(
-            x=self.x,
-            y=self.y,
-            z=self.z,
+            shelf=self.shelf,
+            column=self.column,
+            row=self.row,
             floor=self.floor,
         )
 
-
 class LocationUpdate(BaseModel):
     id: int
-    x: str | None = None
-    y: str | None = None
-    z: str | None = None
-    floor: int | None = None
-
+    shelf: ShelfField | None = None
+    column: ColumnField | None = None
+    row: RowField | None = None
+    floor: FloorField | None = None
 
 class LocationRead(BaseModel):
-    x: str
-    y: str
-    z: str
+    shelf: str
+    column: int
+    row: int
     floor: int | None
 
     class Config:
         from_attributes = True
 
-
+# --- DELETE RESPONSE MODEL ---
 class LocationDeleteRead(BaseModel):
     id: int
     message: str = "Delete location was successful"

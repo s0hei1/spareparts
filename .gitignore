@@ -1,9 +1,7 @@
 playground/
-
+init_data/
 .venv/
-
 apps/spareparts/.env
-
 apps/spareparts/development_db.db
 apps/spareparts/alembic/versions/*
 

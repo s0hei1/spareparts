@@ -14,22 +14,11 @@ from apps.spareparts.api_layer.api.trust_document_api import trust_document_rout
 from apps.spareparts.api_layer.api.user_api import user_router
 from apps.spareparts.api_layer.middleware.performance_middleware import PerformanceMiddleware
 from apps.spareparts.data_layer.core.spare_parts_db import get_db
+from apps.spareparts.main import app as applications
 
 @pytest.fixture
 def app():
-    app = FastAPI()
-    app.include_router(company_router)
-    app.include_router(tag_router)
-    app.include_router(sparepart_type_router)
-    app.include_router(part_number_router)
-    app.include_router(machine_catalog_router)
-    app.include_router(spare_part_router)
-    app.include_router(machine_catalog_spare_part_router)
-    app.include_router(user_router)
-    app.include_router(trust_document_router)
-    app.include_router(auth_router)
-    app.add_middleware(PerformanceMiddleware)
-    return app
+    return applications
 
 @pytest_asyncio.fixture
 async def async_client(app: FastAPI) -> AsyncClient:
