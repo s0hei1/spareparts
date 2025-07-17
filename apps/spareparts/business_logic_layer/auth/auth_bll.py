@@ -1,10 +1,11 @@
 from sqlalchemy import select
+
+from apps.spareparts.api_layer.api_security.jwt_helpers import JWT
 from apps.spareparts.business_logic_layer.exceptions import ValidationException
 from apps.spareparts.data_layer.core.read_only_async_session import ReadOnlyAsyncSession
 from hashlib import sha256
 import re
 from apps.spareparts.data_layer.models.sparepart import User
-from apps.spareparts.security.jwt_helpers import JWT
 
 
 class AuthBLL:

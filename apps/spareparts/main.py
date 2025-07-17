@@ -13,6 +13,7 @@ from apps.spareparts.api_layer.api.sparepart_type_api import sparepart_type_rout
 from apps.spareparts.api_layer.api.tag_api import tag_router
 from apps.spareparts.api_layer.api.uint_of_measue_api import uom_router
 from apps.spareparts.api_layer.api.user_api import user_router
+from apps.spareparts.api_layer.api_security.cors_helper import CORS
 from apps.spareparts.api_layer.exception_handler.bll_exceptions_handler import validation_exception_handler, \
     business_logic_exception_handler
 from apps.spareparts.api_layer.middleware.performance_middleware import PerformanceMiddleware
@@ -37,5 +38,7 @@ app.include_router(auth_router)
 config_admin(app)
 
 app.add_middleware(PerformanceMiddleware)
+app.add_middleware(**CORS.get_cors_middle_ware_params())
+
 app.add_exception_handler(BusinessLogicException, business_logic_exception_handler)
 app.add_exception_handler(ValidationException, validation_exception_handler)
