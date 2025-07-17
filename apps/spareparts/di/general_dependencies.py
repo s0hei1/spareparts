@@ -1,4 +1,4 @@
-from apps.spareparts.security.jwt_helpers import JWT
+from apps.spareparts.api_layer.api_security.jwt_helpers import JWT
 
 
 class GeneralDI():

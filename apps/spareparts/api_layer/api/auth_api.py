@@ -4,13 +4,13 @@ from fastapi import Depends, FastAPI, HTTPException, status, APIRouter
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from pydantic import BaseModel
 
+from apps.spareparts.api_layer.api_security.jwt_helpers import JWT
 from apps.spareparts.business_logic_layer.auth.auth_bll import AuthBLL
 from apps.spareparts.business_logic_layer.auth.auth_schema import LoginSchema, Token
 
 from apps.spareparts.business_logic_layer.user.user_schema import UserRead
 from apps.spareparts.di.bll_dependencies import BLL_DI
 from apps.spareparts.di.general_dependencies import GeneralDI
-from apps.spareparts.security.jwt_helpers import JWT
 
 auth_router = APIRouter(prefix="/auth", tags=["auth"])
 

@@ -1,5 +1,6 @@
 from fastapi.params import Depends
 
+from apps.spareparts.api_layer.api_security.jwt_helpers import JWT
 from apps.spareparts.business_logic_layer.auth.auth_bll import AuthBLL
 from apps.spareparts.business_logic_layer.company.company_bll import CompanyBLL
 from apps.spareparts.business_logic_layer.spare_part.spare_part_bll import SparePartBLL
@@ -10,7 +11,6 @@ from apps.spareparts.data_layer.repository.unit_of_measure_group_repository impo
 from apps.spareparts.data_layer.repository.unit_of_measure_repository import UnitOfMeasureRepository
 from apps.spareparts.di.general_dependencies import GeneralDI
 from apps.spareparts.di.repository_dependencies import RepositoryDI
-from apps.spareparts.security.jwt_helpers import JWT
 
 
 class BLL_DI():
