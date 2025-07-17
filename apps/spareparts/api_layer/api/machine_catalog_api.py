@@ -18,27 +18,27 @@ async def add_machine_catalog(
 ):
     return await machine_catalog_repository.create(machine_catalog_create.to_machine_catalog())
 
-@machine_catalog_router.get('/read_machine_catalog', response_model=MachineCatalogRead)
+@machine_catalog_router.get('/read', response_model=MachineCatalogRead)
 async def get_machine_catalogs(
         id : int,
         machine_catalog_repository: MachineCatalogRepository = Depends(RepositoryDI.machine_catalog_repository),
 ):
     return await machine_catalog_repository.read_one(id)
 
-@machine_catalog_router.get('/read_many_machine_catalogs', response_model=list[MachineCatalogRead])
+@machine_catalog_router.get('/read_many', response_model=list[MachineCatalogRead])
 async def get_machine_catalog(
         machine_catalog_repository: MachineCatalogRepository = Depends(RepositoryDI.machine_catalog_repository),
 ):
     return await machine_catalog_repository.read_many()
 
-@machine_catalog_router.put('/update_machine_catalog', response_model=MachineCatalogRead)
+@machine_catalog_router.put('/update', response_model=MachineCatalogRead)
 async def update_machine_catalog(
         machine_catalog_update : MachineCatalogUpdate,
         machine_catalog_repository: MachineCatalogRepository = Depends(RepositoryDI.machine_catalog_repository),
 ):
     return await machine_catalog_repository.update(**machine_catalog_update.model_dump())
 
-@machine_catalog_router.delete('/delete_machine_catalog', response_model=MachineCatalogDeleteRead)
+@machine_catalog_router.delete('/delete', response_model=MachineCatalogDeleteRead)
 async def delete_machine_catalog(
         id : int,
         machine_catalog_repository: MachineCatalogRepository = Depends(RepositoryDI.machine_catalog_repository),
