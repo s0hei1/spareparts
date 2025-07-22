@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime,timedelta
 from sqlalchemy import Column, Integer, String, Enum, ForeignKey, Float, Boolean,Date
 from sqlalchemy.orm import relationship
 from apps.spareparts.data_layer.enums.property_value_type import PropertyValueType
@@ -32,7 +32,7 @@ class SparePartTypeProperties(SQLAlchemyModel):
 
     spare_part_type = relationship("SparePartType", back_populates="properties")
     property = relationship("Property")
-    spare_part_type_property_values = relationship("SparePartPropertyValue")
+    spare_part_type_property_values = relationship("SparePartPropertyValue", back_populates="spare_part_type_property")
 
 class SparePart(SQLAlchemyModel):
     __tablename__ = 'spare_part'
@@ -70,7 +70,7 @@ class SparePartPropertyValue(SQLAlchemyModel):
     spare_part_id = Column(Integer, ForeignKey('spare_part.id'), nullable=False)
     value = Column(String(255), nullable=True)
 
-    spare_part_type_property = relationship("SparePartTypeProperties")
+    spare_part_type_property = relationship("SparePartTypeProperties", back_populates="spare_part_type_property_values")
     spare_part = relationship("SparePart")
 
 class FactoryPart(SQLAlchemyModel):
@@ -168,8 +168,6 @@ class TrustDocument(SQLAlchemyModel):
     __tablename__ = 'trust_document'
     id = Column(Integer, primary_key=True)
     delivery_date = Column(Date, nullable=False, default= datetime.today())
-    return_date = Column(Date, nullable=False)
+    return_date = Column(Date, nullable=False,default= datetime.today() + timedelta(days=14))
     description = Column(String(1024), nullable=False)
     personal_name = Column(String(255), nullable=False)
-
-
