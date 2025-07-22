@@ -8,13 +8,14 @@ class Settings(BaseSettings):
     jwt_secret_key : str = ''
     jwt_algorithm: str = ''
     jwt_access_token_expire_minutes : int = 3600
+
     development_database_url : str = ''
     production_database_url : str = ''
 
     @property
     def database_url(self):
         db_url = self.development_database_url if self.debug else self.production_database_url
-        print(f"db url is {db_url}")
+
         return db_url
 
 
