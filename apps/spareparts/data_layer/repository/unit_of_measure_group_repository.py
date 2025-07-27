@@ -28,11 +28,17 @@ class UnitOfMeasureGroupRepository:
         return instance
 
     async def create(self, uom_group: UnitOfMeasureGroup) -> UnitOfMeasureGroup:
-        print("Hii")
         self.db.add(uom_group)
         await self.db.commit()
         await self.db.refresh(uom_group)
         return uom_group
+
+    async def create_many(self, uom_groups: Sequence[UnitOfMeasureGroup]) -> Sequence[UnitOfMeasureGroup]:
+        self.db.add_all(uom_groups)
+        await self.db.commit()
+        [(await self.db.refresh(i)) for i in uom_groups]
+        return uom_groups
+
 
     async def update(
         self,

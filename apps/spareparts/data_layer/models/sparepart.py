@@ -100,6 +100,7 @@ class UnitOfMeasureGroup(SQLAlchemyModel):
     id = Column(Integer, primary_key=True)
     name = Column(String(64), nullable=False)
     alias_name = Column(String(64), nullable=True)
+    description = Column(String(1024), nullable=True)
 
 class UnitOfMeasure(SQLAlchemyModel):
     __tablename__ = 'unit_of_measure'
