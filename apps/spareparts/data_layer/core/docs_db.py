@@ -1,7 +1,6 @@
 from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from apps.spareparts.data_layer.models.documents import GoodsTrustDocument
 
 
 async def init_mongo_db():
