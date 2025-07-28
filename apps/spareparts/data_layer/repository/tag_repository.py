@@ -1,7 +1,9 @@
-from typing import Sequence
-from sqlalchemy import select
+from typing import Sequence, Any
+from sqlalchemy import select, Result, Selectable
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.sql import Select
+from sqlalchemy.util import await_only
 
 from apps.spareparts.data_layer.models.sparepart import Tag  # Adjust import path if needed
 
@@ -53,3 +55,18 @@ class TagRepository:
         await self.db.delete(obj)
         await self.db.commit()
         return obj
+
+
+    async def create_or_read(self, tag: Tag) -> Tag:
+
+        q = select(Tag).where(Tag.title == tag.title)
+        query_result = await self.db.execute(q)
+        obj : Tag | None = query_result.scalar_one_or_none()
+
+        if obj is None:
+            return await self.create(tag)
+        return obj
+
+    async def create_or_read_many(self, tags : list[Tag]) -> Sequence[Tag]:
+        return [await self.create_or_read(tag) for tag in tags]
+

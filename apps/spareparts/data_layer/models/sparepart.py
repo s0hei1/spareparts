@@ -135,7 +135,7 @@ class Location(SQLAlchemyModel):
 class Tag(SQLAlchemyModel):
     __tablename__ = 'tag'
     id = Column(Integer, primary_key=True)
-    title = Column(String(255), nullable=False)
+    title = Column(String(255), nullable=False, unique= True)
     title_alias = Column(String(255), nullable=True)
 
 class PartNumber(SQLAlchemyModel):
