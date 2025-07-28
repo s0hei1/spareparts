@@ -10,6 +10,16 @@ def fake_tag_json() -> dict:
         "title" : "TestTag"
     }
 
+@pytest.fixture
+def fake_tags_json() -> list[dict]:
+    return [
+        {"title": "Test Tag 1"},
+        {"title": "Test Tag 2"},
+        {"title": "Test Tag 3"},
+        {"title": "Test Tag 4"},
+    ]
+
+
 @pytest.mark.asyncio
 async def test_create_tag(
         app : FastAPI,
@@ -74,3 +84,40 @@ async def test_tag_update(
     response.raise_for_status()
 
     assert response.json().get("title") == newTitle
+
+
+@pytest.mark.asyncio
+async def test_create_many_tags(
+        app: FastAPI,
+        async_client: AsyncClient,
+        fake_tags_json: dict,
+):
+    create_response = await async_client.post("/tag/create_many", json=fake_tags_json)
+    create_response.raise_for_status()
+    assert isinstance(create_response.json(), list)
+    assert len(create_response.json()) == len(fake_tags_json)
+
+    re_try_to_create_response = await async_client.post("/tag/create_many", json=fake_tags_json)
+    re_try_to_create_response.raise_for_status()
+
+    func = lambda response : sorted([i["id"] for i in response.json()])
+
+    assert func(create_response) == func(re_try_to_create_response)
+
+
+
+@pytest.mark.asyncio
+async def test_create_tags_from_file(
+        app: FastAPI,
+        async_client: AsyncClient,
+        fake_tags_file
+):
+    pass
+
+@pytest.mark.asyncio
+async def test_error_raise_for_invalid_file_format(
+        app: FastAPI,
+        async_client: AsyncClient,
+        wrong_file
+):
+    pass

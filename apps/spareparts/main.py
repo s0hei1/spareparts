@@ -18,8 +18,8 @@ from apps.spareparts.api_layer.exception_handler.bll_exceptions_handler import v
     business_logic_exception_handler
 from apps.spareparts.api_layer.middleware.performance_middleware import PerformanceMiddleware
 from apps.spareparts.business_logic_layer.exceptions import BusinessLogicException, ValidationException
-
-app = FastAPI()
+from apps.spareparts.api_layer.spareparts_life_span import lifespan
+app = FastAPI(lifespan=lifespan)
 
 app.include_router(uom_router)
 app.include_router(factory_parts_router)
@@ -42,3 +42,4 @@ app.add_middleware(**CORS.get_cors_middle_ware_params())
 
 app.add_exception_handler(BusinessLogicException, business_logic_exception_handler)
 app.add_exception_handler(ValidationException, validation_exception_handler)
+

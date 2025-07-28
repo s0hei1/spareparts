@@ -2,6 +2,8 @@ import pytest
 from fastapi import FastAPI
 from httpx import AsyncClient
 from global_fixtures import app, async_client
+from more_itertools import first
+
 
 @pytest.fixture()
 def fake_uom_groups():
@@ -32,4 +34,5 @@ async def test_create_uom_groups(
     response.raise_for_status()
     assert isinstance(response.json(), list)
     assert len(response.json()) == len(fake_uom_groups)
+    assert first(response.json()).get('id')
 
